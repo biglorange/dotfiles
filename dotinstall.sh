@@ -11,3 +11,7 @@ ln -s ~/OneDrive/OS/linux/dotfile/zshrc ~/.zshrc
 ln -s ~/OneDrive/OS/linux/dotfile/i3/config ~/.config/i3/config
 # i3status-rust
 ln -s ~/OneDrive/OS/linux/dotfile/i3/i3status_config ~/.config/i3status-rs/config.toml
+# dunst
+ln -s ~/OneDrive/OS/linux/dotfile/dunst/dunstrc ~/.config/dunst/dunstrc
+# gitcofnig
+ln -s ~/OneDrive/OS/linux/dotfile/gitconfig ~/.gitconfig

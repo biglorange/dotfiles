@@ -15,6 +15,15 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:monospace 9
 
+# 启动双屏
+exec xrandr --output HDMI1 --primary --auto --right-of eDP1
+# set $INNER eDP1
+# set $OUTER HDMI1
+# set $ROTATED normal
+# exec xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode 1920x1080 --pos 1920x0 --rotate $ROTATED --right-of $INNER
+# 登陆时设置桌面背景
+exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
+
 #设置窗口边框等等
 new_window pixel 1
 new_float normal
@@ -42,9 +51,6 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-# start a terminal
-bindsym $mod+Return exec xfce4-terminal
 
 # kill focused window
 bindsym $mod+q kill
@@ -83,7 +89,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -97,7 +103,7 @@ bindsym $mod+w layout tabbed
 bindsym $mod+t layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -168,15 +174,12 @@ workspace $ws8 output $monitor_right
 workspace $ws9 output $monitor_right
 workspace $ws10 output $monitor_right
 
-# start specifi application
-bindsym $mod+e exec terminal -e 'ranger'
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -195,11 +198,37 @@ bar {
     }
 }
 
+set $mode_system :Logout (e) | :Reboot (r) | :Shutdown (s)
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s exec --no-startup-id systemctl poweroff -i, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+shift+q mode "$mode_system"
+
+# start a terminal
+bindsym $mod+Return exec xfce4-terminal
+# start specifi application
+bindsym $mod+e exec xfce4-terminal -e ranger
+bindsym $mod+F2 exec google-chrome-stable
+
+# 打开消息历史
+# set $noti_history dunsctl history-pop
+bindsym $mod+h exec --no-startup-id "dunstctl history-pop"
+
 #登录时 启用窗口透明
 exec --no-startup-id compton -b
 
 #登录时启动fcitx
 exec --no-startup-id fcitx5
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 # 交换 ctrl caps
-exec --no-startup-id 'setxkbmap -option "ctrl:swapcaps"'
+exec --no-startup-id setxkbmap -option "ctrl:swapcaps"
+# 挂载 NFS
+# exec --no-startup-id "sudo mount -t nfs 192.168.123.94:/export/share ~/NFS"
+
