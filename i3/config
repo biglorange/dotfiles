@@ -154,11 +154,10 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # assgin software to specified workspace
 assign [class="Google-chrome"] $ws2
 assign [class="TelegramDesktop"] $ws3
-assign [class="Google-chrome"] $ws2
-assign [class="Google-chrome"] $ws2
-assign [class="Google-chrome"] $ws2
-assign [class="Google-chrome"] $ws2
-
+assign [class="wps"] $ws5
+assign [class="Wps"] $ws5
+assign [class="evince"] $ws5
+assign [class="Evince"] $ws5
 
 # 指定 workspace 运行在指定屏幕上
 set $monitor_left eDP1

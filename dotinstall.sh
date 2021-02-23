@@ -15,3 +15,6 @@ ln -s ~/OneDrive/OS/linux/dotfile/i3/i3status_config ~/.config/i3status-rs/confi
 ln -s ~/OneDrive/OS/linux/dotfile/dunst/dunstrc ~/.config/dunst/dunstrc
 # gitcofnig
 ln -s ~/OneDrive/OS/linux/dotfile/gitconfig ~/.gitconfig
+# aria2
+ln -s ~/OneDrive/OS/linux/dotfile/aria2/aria2.conf ~/.aria2/aria2.conf
+touch ~/.aria2/aria2.session
