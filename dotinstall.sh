@@ -18,3 +18,7 @@ ln -s ~/OneDrive/OS/linux/dotfile/gitconfig ~/.gitconfig
 # aria2
 ln -s ~/OneDrive/OS/linux/dotfile/aria2/aria2.conf ~/.aria2/aria2.conf
 touch ~/.aria2/aria2.session
+# onedrive
+ln -s ~/OneDrive/OS/linux/dotfile/onedrive/onedrive_personal/config ~/.config/onedrive/config
+ln -s ~/OneDrive/OS/linux/dotfile/onedrive/onedrive_edu/config ~/.config/onedrive_edu/config
+
