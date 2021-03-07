@@ -115,3 +115,5 @@ alias setpy='export ALL_PROXY=http://192.168.123.94:1081'
 alias unpy='unset ALL_PROXY'
 
 alias vim='nvim'
+alias mk='make clean && make'
+alias mc='make clean'

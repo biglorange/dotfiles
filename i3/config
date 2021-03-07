@@ -57,7 +57,7 @@ bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+d exec --no-startup-id "rofi -show-icons -modi drun,run -show drun -theme solarized_alternate"
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -67,7 +67,7 @@ bindsym $mod+d exec --no-startup-id rofi -show drun
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
-bindsym $mod+l focus up
+# bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
@@ -158,6 +158,8 @@ assign [class="wps"] $ws5
 assign [class="Wps"] $ws5
 assign [class="evince"] $ws5
 assign [class="Evince"] $ws5
+assign [class="mpv"] $ws9
+assign [class="Steam"] $ws10
 
 # 指定 workspace 运行在指定屏幕上
 set $monitor_left eDP1
@@ -215,6 +217,8 @@ bindsym $mod+Return exec xfce4-terminal
 # start specifi application
 bindsym $mod+e exec xfce4-terminal -e ranger
 bindsym $mod+F2 exec google-chrome-stable
+# lock screen
+bindsym $mod+l exec xscreensaver-command -l
 
 # 打开消息历史
 # set $noti_history dunsctl history-pop
@@ -226,8 +230,14 @@ exec --no-startup-id compton -b
 #登录时启动fcitx
 exec --no-startup-id fcitx5
 # exec --no-startup-id nm-applet
-# 交换 ctrl caps
-exec --no-startup-id setxkbmap -option "ctrl:swapcaps"
+# 交换 ctrl caps 第一次交换的是笔记本内置键盘
+exec setxkbmap -option "ctrl:swapcaps"
+# 交换 ctrl caps 第二次交换的是外接键盘
+exec setxkbmap -option "ctrl:swapcaps"
 # 挂载 NFS
 # exec --no-startup-id "sudo mount -t nfs 192.168.123.94:/export/share ~/NFS"
+# 登陆时启动 xscreensaver
+exec --no-startip-id xscreensaver -no-splash
+# 登陆时设置息屏时长
+exec --no-startip-id xset dpms 0 0 600
 

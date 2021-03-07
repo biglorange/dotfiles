@@ -36,4 +36,4 @@ fi
 # exec compton -b &
 # exec fcitx5 &
 exec i3 -V >> ~/.config/i3/log/i3log-$(date +'%F-%k-%M-%S' 2>&1)
-exec sudo mount -t nfs 192.168.123.94:/export/share ~/NFS
+# exec sudo mount -t nfs 192.168.123.94:/export/share ~/NFS

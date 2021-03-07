@@ -1,0 +1,4 @@
+.history
+**/*.o
+build
+.vscode

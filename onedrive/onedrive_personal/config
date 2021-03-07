@@ -7,7 +7,7 @@
 #
 sync_dir = "~/OneDrive"
 skip_file = "~*|.~*|*.tmp|*.lock"
-# monitor_interval = "300"
+monitor_interval = "300"
 # skip_dir = "OS/linux/dotfile/.git"
 # log_dir = "/var/log/onedrive/"
 # drive_id = ""
