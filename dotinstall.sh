@@ -24,3 +24,7 @@ ln -s ~/OneDrive/OS/linux/dotfile/onedrive/onedrive_personal/config ~/.config/on
 ln -s ~/OneDrive/OS/linux/dotfile/onedrive/onedrive_edu/config ~/.config/onedrive_edu/config
 # fiqlo
 ln -s ~/OneDrive/OS/linux/dotfile/xscreensaver ~/.xscreensaver
+# mpv
+ln -s ~/OneDrive/OS/linux/dotfile/mpv ~/.config/
+# xmodmap
+ln -s ~/OneDrive/OS/linux/dotfile/Xmodmap ~/.Xmodmap

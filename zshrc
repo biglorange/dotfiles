@@ -99,6 +99,8 @@ plugins=(git archlinux adb )
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+setopt no_nomatch
+
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
@@ -106,14 +108,17 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
+# source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
 . /usr/lib/python3.9/site-packages/powerline/bindings/zsh/powerline.zsh
 
-alias setpy='export ALL_PROXY=http://192.168.123.94:1081'
+alias setpy='export ALL_PROXY=http://192.168.123.242:1081'
 alias unpy='unset ALL_PROXY'
 
 alias vim='nvim'
 alias mk='make clean && make'
 alias mc='make clean'
+alias tvmode='xrandr --output HDMI-A-0 --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 100'
+source /usr/share/nvm/init-nvm.sh
+export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node

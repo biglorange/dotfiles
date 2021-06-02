@@ -3,10 +3,8 @@ icons = "awesome"
 
 [[block]]
 block = "net"
-device = "wlp7s0"
-ssid = true
-speed_up = true
-speed_down = true
+device = "enp34s0"
+format = "{speed_up;K*B} {speed_down;K*B}"
 interval = 5
 
 [[block]]
@@ -32,13 +30,12 @@ alert = 10.0
 [[block]]
 block = "cpu"
 interval = 1
-frequency = true
+format = "{utilization} {frequency}"
 
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mup}%"
-format_swap = "{SUp}%"
+format_mem = "{mem_used}/{mem_total}({mem_used_percents})"
 
 [[block]]
 block = "load"
@@ -49,7 +46,7 @@ format = "{1m}"
 block = "temperature"
 collapsed = false
 interval = 10
-format = "{max}° max, {average}° avg"
+format = "{max} max, {min} min, {average} avg"
 
 [[block]]
 block = "sound"

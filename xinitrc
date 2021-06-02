@@ -33,7 +33,12 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+#xrandr --setprovideroutputsource modesetting NVIDIA-0
+#xrandr --auto
+
 # exec compton -b &
 # exec fcitx5 &
 exec i3 -V >> ~/.config/i3/log/i3log-$(date +'%F-%k-%M-%S' 2>&1)
 # exec sudo mount -t nfs 192.168.123.94:/export/share ~/NFS
+[ -f "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
+# exec xscreensaver -no-splash &
