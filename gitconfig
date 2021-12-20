@@ -11,3 +11,7 @@
 	cb = checkout
 [core]
 	excludesfile = /home/orange/.gitignore
+[http "https://github.com"]
+	proxy = socks5://192.168.123.79:1080
+[https "https://github.com"]
+	proxy = socks5://192.168.123.79:1080

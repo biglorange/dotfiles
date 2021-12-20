@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.bin:$PATH
 
 # Path to your oh-my-zsh installation.
 ZSH=/usr/share/oh-my-zsh/
@@ -111,14 +111,20 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
-. /usr/lib/python3.9/site-packages/powerline/bindings/zsh/powerline.zsh
+. /usr/lib/python3.10/site-packages/powerline/bindings/zsh/powerline.zsh
 
-alias setpy='export ALL_PROXY=http://192.168.123.242:1081'
+alias setpy='export ALL_PROXY=http://192.168.123.79:1081'
 alias unpy='unset ALL_PROXY'
 
 alias vim='nvim'
 alias mk='make clean && make'
 alias mc='make clean'
 alias tvmode='xrandr --output HDMI-A-0 --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 100'
+alias gdb='gdb -q'
 source /usr/share/nvm/init-nvm.sh
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+export LSAN_OPTIONS=verbosity=1:log_threads=1
+export ASAN_OPTIONS=detect_leaks=1
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
+

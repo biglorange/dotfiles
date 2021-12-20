@@ -4,7 +4,7 @@ icons = "awesome"
 [[block]]
 block = "net"
 device = "enp34s0"
-format = "{speed_up;K*B} {speed_down;K*B}"
+format = "{speed_up;K*B},{speed_down;K*B}"
 interval = 5
 
 [[block]]
@@ -30,7 +30,7 @@ alert = 10.0
 [[block]]
 block = "cpu"
 interval = 1
-format = "{utilization} {frequency}"
+format = "{utilization}{frequency}"
 
 [[block]]
 block = "memory"
@@ -46,7 +46,7 @@ format = "{1m}"
 block = "temperature"
 collapsed = false
 interval = 10
-format = "{max} max, {min} min, {average} avg"
+format = "{max}max,{min}min,{average}avg"
 
 [[block]]
 block = "sound"

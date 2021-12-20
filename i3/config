@@ -17,10 +17,10 @@ font pango:monospace 9
 
 # 启动双屏
 # exec xrandr --output HDMI-1-1 --primary --mode 3840x2160 --right-of eDP-1-1
-# set $INNER eDP1
-# set $OUTER HDMI1
+set $LEFT_OUTPUT HDMI-A-0
+set $RIGHT_OUTPUT DisplayPort-0
 # set $ROTATED normal
-# exec xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode 1920x1080 --pos 1920x0 --rotate $ROTATED --right-of $INNER
+exec xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
 # 登陆时设置桌面背景
 exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
 
@@ -160,14 +160,15 @@ assign [class="evince"] $ws5
 assign [class="Evince"] $ws5
 assign [class="mpv"] $ws9
 assign [class="retroarch"] $ws9
+assign [class="Hollow Knight"] $ws9
 assign [class="Steam"] $ws10
 
 # 指定 workspace 运行在指定屏幕上
-set $monitor_left eDP-1-1
-set $monitor_right HDMI-1-1
+set $monitor_left HDMI-A-0
+set $monitor_right DisplayPort-0
 workspace $ws1 output $monitor_left
 workspace $ws2 output $monitor_right
-workspace $ws3 output $monitor_right
+workspace $ws3 output $monitor_left
 workspace $ws4 output $monitor_left
 workspace $ws5 output $monitor_right
 workspace $ws6 output $monitor_left
@@ -218,6 +219,9 @@ bindsym $mod+Return exec xfce4-terminal
 # start specifi application
 bindsym $mod+e exec xfce4-terminal -e ranger
 bindsym $mod+F2 exec google-chrome-stable
+bindsym $mod+F3 exec telegram-desktop
+bindsym $mod+F9 exec retroarch
+bindsym $mod+F10 exec steam-runtime
 # lock screen
 bindsym $mod+l exec xscreensaver-command -l
 # force off screen
@@ -241,4 +245,3 @@ exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id xset dpms 0 0 600
 exec --no-startup-id sudo msi-rgb 0 0 0 -x
 # exec --no-startup-id sudo mount -t nfs 192.168.123.242:/export/share ~/NFS
-
