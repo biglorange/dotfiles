@@ -15,15 +15,6 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:monospace 9
 
-# 启动双屏
-# exec xrandr --output HDMI-1-1 --primary --mode 3840x2160 --right-of eDP-1-1
-set $LEFT_OUTPUT HDMI-A-0
-set $RIGHT_OUTPUT DisplayPort-0
-# set $ROTATED normal
-exec xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
-# 登陆时设置桌面背景
-exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
-
 #设置窗口边框等等
 new_window pixel 1
 new_float normal
@@ -155,7 +146,6 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 assign [class="Google-chrome"] $ws2
 assign [class="TelegramDesktop"] $ws3
 assign [class="wps"] $ws5
-assign [class="Wps"] $ws5
 assign [class="evince"] $ws5
 assign [class="Evince"] $ws5
 assign [class="mpv"] $ws9
@@ -188,6 +178,8 @@ bindsym $mod+Shift+r restart
 # finds out, if available)
 bar {
     font pango:DejaVu Sans Mono, FontAwesome 9
+    tray_output primary
+    tray_padding 0
     position bottom
     status_command /usr/bin/i3status-rs ~/.config/i3status-rs/config.toml
     colors {
@@ -235,7 +227,7 @@ bindsym $mod+shift+a --release exec scrot -q 100 -s '%Y-%m-%d-%H-%M-%S_$wx$h.png
 bindsym $mod+o exec --no-startup-id "dunstctl history-pop"
 
 #登录时 启用窗口透明
-exec --no-startup-id compton -b
+exec_always picom -b
 
 #登录时启动fcitx
 exec --no-startup-id fcitx5
@@ -244,4 +236,11 @@ exec --no-startup-id xscreensaver -no-splash
 # 登陆时设置息屏时长
 exec --no-startup-id xset dpms 0 0 600
 exec --no-startup-id sudo msi-rgb 0 0 0 -x
-# exec --no-startup-id sudo mount -t nfs 192.168.123.242:/export/share ~/NFS
+exec --no-startup-id sleep 1
+# 启动双屏
+set $LEFT_OUTPUT HDMI-A-0
+set $RIGHT_OUTPUT DisplayPort-0
+set $ROTATED normal
+exec --no-startup-id xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
+# 登陆时设置桌面背景
+exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'

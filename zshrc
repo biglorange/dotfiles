@@ -112,9 +112,10 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
 . /usr/lib/python3.10/site-packages/powerline/bindings/zsh/powerline.zsh
+eval $(thefuck --alias)
 
-alias setpy='export ALL_PROXY=http://192.168.123.79:1081'
-alias unpy='unset ALL_PROXY'
+alias setpy='export ALL_PROXY=http://192.168.123.79:1081; export http_proxy=http://192.168.123.79:1081; export https_proxy=$http_proxy'
+alias unpy='unset ALL_PROXY; unset https_proxy; unset http_proxy'
 
 alias vim='nvim'
 alias mk='make clean && make'
@@ -127,4 +128,8 @@ export LSAN_OPTIONS=verbosity=1:log_threads=1
 export ASAN_OPTIONS=detect_leaks=1
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
-
+if [[ 'Microsoft' != `uname -r | awk -F- '{ print $3}'` ]]; then
+  export ALL_PROXY=http://192.168.123.253:8118
+  export http_proxy=http://192.168.123.253:8118
+  export https_proxy=$http_proxy
+fi
