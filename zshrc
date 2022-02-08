@@ -129,7 +129,7 @@ export ASAN_OPTIONS=detect_leaks=1
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
 if [[ 'Microsoft' != `uname -r | awk -F- '{ print $3}'` ]]; then
-  export ALL_PROXY=http://192.168.123.253:8118
-  export http_proxy=http://192.168.123.253:8118
+  export ALL_PROXY=http://192.168.123.79:1081
+  export http_proxy=http://192.168.123.79:1081
   export https_proxy=$http_proxy
 fi

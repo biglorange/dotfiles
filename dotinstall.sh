@@ -40,3 +40,9 @@ ln -s ${current_dir}/Xmodmap ~/.Xmodmap
 # compton/picom
 [ ! -d ~/.config/picom ] && mkdir -p ~/.config/picom
 ln -s ${current_dir}/i3/picom/picom.conf ~/.config/picom/picom.conf
+# paru
+[ ! -d ~/.config/paru ] && mkdir -p ~/.config/paru
+ln -s ${current_dir}/paru/paru.conf ~/.config/paru/paru.conf
+# cargo config
+[ ! -d ~/.cargo ] && mkdir -p ~/.cargo
+ln -s ${current_dir}/cargo/cargo.conf ~/.cargo/config

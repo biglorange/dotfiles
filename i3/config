@@ -210,6 +210,7 @@ bindsym $mod+shift+q mode "$mode_system"
 bindsym $mod+Return exec xfce4-terminal
 # start specifi application
 bindsym $mod+e exec xfce4-terminal -e ranger
+bindsym $mod+F1 exec code
 bindsym $mod+F2 exec google-chrome-stable
 bindsym $mod+F3 exec telegram-desktop
 bindsym $mod+F9 exec retroarch
