@@ -18,3 +18,5 @@
 	proxy = socks5://192.168.123.79:1080
 [https "https://github.com"]
 	proxy = socks5://192.168.123.79:1080
+[pull]
+	rebase = true
