@@ -213,6 +213,7 @@ bindsym $mod+e exec xfce4-terminal -e ranger
 bindsym $mod+F1 exec code
 bindsym $mod+F2 exec google-chrome-stable
 bindsym $mod+F3 exec telegram-desktop
+bindsym $mod+F4 exec logseq
 bindsym $mod+F9 exec retroarch
 bindsym $mod+F10 exec steam-runtime
 # lock screen
