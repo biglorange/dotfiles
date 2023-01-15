@@ -26,3 +26,5 @@ docker run -d \
 
 
 docker run -d -e PUID=1000 -e PGID=1000 -v ~/.jellyfin_config:/config -v /mnt/nfs:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin
+
+docker run -d --name=plex --net=host -e PUID=1000 -e PGID=1000 -e PLEX_CLAIM="xxx" --device=/dev/dri:/dev/dri -e VERSION=docker -v /home/orange/.plex_config:/config -v /mnt/nfs/00_Film:/movies:ro -v /mnt/nfs/04_Series:/tv:ro -v /mnt/nfs/02_Library/05_Music:/music:ro --restart always plexinc/pms-docker
