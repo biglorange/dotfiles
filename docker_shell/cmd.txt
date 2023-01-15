@@ -1,0 +1,28 @@
+docker run -d --name=flare -e PUID=1000 -e PGID=1000 -p 5005:5005 -v ~/.flare:/app --restart always soulteary/flare
+
+docker run -d \
+  --name=jackett \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Europe/London \
+  -e AUTO_UPDATE=true `#optional` \
+  -p 9117:9117 \
+  -v ~/.jackett_config:/config \
+  -v /mnt:/downloads \
+  --restart always \
+  linuxserver/jackett
+
+docker run -d \
+    --name nas-tools \
+    --hostname nas-tools \
+    -p 3006:3000   `# 默认的webui控制端口`  \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -v ~/.nastools_config:/config/  `# 冒号左边请修改为你想在主机上保存配置文件的路径` \
+    -v /mnt:/media/  `# 媒体目录，多个目录需要分别映射进来`  \
+    -e NASTOOL_AUTO_UPDATE=false `# 如需在启动容器时自动升级程程序请设置为true`  \
+    --restart always \
+    jxxghp/nas-tools
+
+
+docker run -d -e PUID=1000 -e PGID=1000 -v ~/.jellyfin_config:/config -v /mnt/nfs:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin

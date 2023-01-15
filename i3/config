@@ -210,16 +210,18 @@ bindsym $mod+shift+q mode "$mode_system"
 bindsym $mod+Return exec xfce4-terminal
 # start specifi application
 bindsym $mod+e exec xfce4-terminal -e ranger
-bindsym $mod+F1 exec code
+bindsym $mod+F1 exec plexmediaplayer
 bindsym $mod+F2 exec google-chrome-stable
 bindsym $mod+F3 exec telegram-desktop
 bindsym $mod+F4 exec logseq
+bindsym $mod+F5 exec code
 bindsym $mod+F9 exec retroarch
+# bindsym $mod+F10 exec env ALL_PROXY="" https_proxy="" http_proxy="" steam-runtime
 bindsym $mod+F10 exec steam-runtime
 # lock screen
-bindsym $mod+l exec xscreensaver-command -l
+bindsym $mod+k exec xscreensaver-command -l
 # force off screen
-bindsym $mod+k exec 'sleep 1 && xset dpms force off'
+bindsym $mod+l exec 'sleep 1 && xset dpms force off'
 # capture screenshoot
 bindsym $mod+a --release exec scrot -q 100 '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/00_Screenshoots/'
 bindsym $mod+shift+a --release exec scrot -q 100 -s '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/00_Screenshoots/'
@@ -234,9 +236,9 @@ exec_always picom -b
 #登录时启动fcitx
 exec --no-startup-id fcitx5
 # 登陆时启动 xscreensaver
-exec --no-startup-id xscreensaver -no-splash
+# exec --no-startup-id xscreensaver -no-splash
 # 登陆时设置息屏时长
-exec --no-startup-id xset dpms 0 0 600
+exec --no-startup-id xset dpms 0 0 180
 exec --no-startup-id sudo msi-rgb 0 0 0 -x
 exec --no-startup-id sleep 1
 # 启动双屏
