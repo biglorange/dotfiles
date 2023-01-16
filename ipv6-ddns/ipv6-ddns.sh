@@ -13,6 +13,6 @@ ROOT_DIR=$(dirname $(readlink -f "$0"))
 
 IP6=`ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}'`
 [ -z ${IP6} ] && exit
-curl -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
+curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
     -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" \
     --data '{"type":"'"${DNS_TYPE}"'","name":"'"${HOST_NAME}"'","content":"'"${IP6}"'","ttl":120,"proxied":false}'
