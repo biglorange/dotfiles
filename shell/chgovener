@@ -1,0 +1,14 @@
+#!/bin/bash
+current_governor=`cpupower frequency-info | grep "The governor" | awk '{print $3}' | sed 's/\"//g' | sed s/[[:space:]]//g`
+av_gov_1=`cpupower frequency-info | grep "governors" | awk '{print $4}' | sed s/[[:space:]]//g`
+av_gov_2=`cpupower frequency-info | grep "governors" | awk '{print $5}' | sed s/[[:space:]]//g`
+# ret=`${current_governor}==${av_gov_1}`
+# echo ${ret}
+use_gov=''
+if [ "$current_governor" = "$av_gov_1" ]; then
+	use_gov=${av_gov_2}
+else
+	use_gov=${av_gov_1}
+fi
+echo "use_gov:${use_gov}"
+sudo cpupower frequency-set -g ${use_gov}

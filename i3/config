@@ -234,7 +234,7 @@ bindsym $mod+o exec --no-startup-id "dunstctl history-pop"
 exec_always picom -b
 
 #登录时启动fcitx
-exec --no-startup-id fcitx5
+exec --no-startup-id fcitx5 -d
 # 登陆时启动 xscreensaver
 # exec --no-startup-id xscreensaver -no-splash
 # 登陆时设置息屏时长

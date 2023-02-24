@@ -1,0 +1,14 @@
+#!/bin/bash
+sudo pkill timeshift-gtk
+sleep 1
+sudo pkill timeshift
+sleep 1
+sudo umount /mnt/timeshift/backup
+sleep 1
+sudo umount /run/timeshift/backup
+sleep 1
+sudo umount /home/orange/X
+sleep 1
+sudo cryptsetup close orangebackup
+sleep 1
+sudo umount /home/orange/NFS

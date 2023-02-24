@@ -1,0 +1,42 @@
+#!/bin/bash
+BRIGHTNESS=$1
+SCREEN=$2
+INNER=`xrandr | grep connected | cut -d ' ' -f 1 | sed -n '1p'`
+OUTER=`xrandr | grep connected | cut -d ' ' -f 1 | sed -n '2p'`
+# retcode=$(/usr/bin/lsmod | grep nvidia)
+# if [ -n "${retcode}"  ];then
+# 	INNER="eDP-1";
+# 	OUTER="HDMI-1";
+# else
+# 	INNER="eDP1-1";
+# 	OUTER="HDMI-1";
+# fi
+#echo "${retcode}"
+echo "${INNER},${OUTER}"
+
+if [ -n "$(echo ${BRIGHTNESS}| sed -n "/^[0-9]\+$/p")" ]; then
+	if [ $(echo ${BRIGHTNESS}) -ge 976 ];then
+		#echo "xxxxxx"
+		BRIGHTNESS=976;
+	fi
+	echo "${BRIGHTNESS}"
+	#INNER=$[${BRIGHTNESS}];
+	#echo "${INNER}"
+	sudo sh -c "echo ${BRIGHTNESS} > /sys/class/backlight/intel_backlight/brightness";
+	retcode=$?
+	echo "${retcode}"
+	if [ ${retcode} != 0 ]; then
+		echo "please input a number between 1-976."
+	fi
+	OUTERBRIGHT=$[${BRIGHTNESS} / 1000]|bc;
+	OUTERBRIGHT=$(echo "scale=3;${BRIGHTNESS}/976"|bc)
+	#echo "$OUTER"
+	if [[ ! -n "${SCREEN}" ]];then 
+		xrandr --output ${OUTER} --brightness ${OUTERBRIGHT};
+	fi
+	retcode=$?
+	#echo "${retcode}"
+else
+	echo "please input a number."
+fi
+

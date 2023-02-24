@@ -1,0 +1,3 @@
+#!/bin/bash
+#sudo mount -t nfs 192.168.123.242:/export/share ~/NFS
+sudo mount -t nfs 192.168.123.4:/home/orange/NFS ~/NFS

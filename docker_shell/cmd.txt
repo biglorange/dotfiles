@@ -25,6 +25,40 @@ docker run -d \
     jxxghp/nas-tools
 
 
-docker run -d -e PUID=1000 -e PGID=1000 -v ~/.jellyfin_config:/config -v /mnt/nfs:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin
+docker run -d -e PUID=1000 -e PGID=1000 -v /root/scripts/docker/jellyfin:/config -v /mnt:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin
 
 docker run -d --name=plex --net=host -e PUID=1000 -e PGID=1000 -e PLEX_CLAIM="xxx" --device=/dev/dri:/dev/dri -e VERSION=docker -v /home/orange/.plex_config:/config -v /mnt/nfs/00_Film:/movies:ro -v /mnt/nfs/04_Series:/tv:ro -v /mnt/nfs/02_Library/05_Music:/music:ro --restart always plexinc/pms-docker
+
+
+docker run -d \
+  --name=qbittorrent \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -e WEBUI_PORT=8080 \
+  -p 8080:8080 \
+  -p 6881:6881 \
+  -p 6881:6881/udp \
+  -v /root/scripts/docker/qbitorrent:/config \
+  -v /mnt:/downloads \
+  --restart unless-stopped \
+  linuxserver/qbittorrent
+
+docker network create --subnet=172.18.0.0/16 connect_network
+
+docker run -d -p 1080:1080 -p 1081:1081 -p 1082:1082 -p 5443:5443 --name v2ray --restart=always -v /root/docker/v2ray:/etc/v2ray teddysun/v2ray
+
+docker run -d -p 5335:53 --net connect_network --ip 172.18.0.2 --restart=always --name gsmartdns -v /root/docker/smartdns:/smartdns ghostry/smartdns
+
+docker run --name adguardhome --net connect_network --ip 172.18.0.3 --restart=always -v /root/docker/adguard/work:/opt/adguardhome/work -v /root/docker/adguard/conf:/opt/adguardhome/conf -p 3000:3000/tcp -p 53:53/udp -p 53:53/tcp -d adguard/adguardhome
+
+docker run -d \
+  --name=nextcloud \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -p 8888:80 \
+  -v /root/scripts/docker/nextcloud:/config \
+  -v /mnt/98_Nextcloud_data:/data \
+  --restart unless-stopped \
+  linuxserver/nextcloud
