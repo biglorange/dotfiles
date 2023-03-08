@@ -13,7 +13,7 @@ cd ${save_path}
 save_file=${save_path}/../pve_bk_${DATE}.tgz
 # tar -czvf ${save_path}/../pve_bk_${DATE}.tgz -C${save_path}/ *
 
-tar -czvf ${save_file} -C${save_path}/ *
+tar -czf ${save_file} -C${save_path}/ *
 
 
 last_bk=`ls -t ${onedrive_path} | head -1`

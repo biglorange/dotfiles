@@ -30,8 +30,8 @@ alert = 10.0
 [[block]]
 block = "cpu"
 interval = 1
-format = " $icon $barchart $utilization $frequency "
-format_alt = " $icon $frequency{ $boost|} "
+format_alt = " $icon $barchart $utilization $frequency "
+format = " $icon $frequency{ $boost|} "
 
 [[block]]
 block = "memory"
@@ -45,9 +45,7 @@ format = "{1m}"
 [[block]]
 block = "temperature"
 interval = 10
-format = " $icon $min min, $max max, $average avg "
-format_alt = " $icon $min min, $max max, $average avg "
-chip = "*-isa-*"
+format = " $icon$min min,$max max,$average avg"
 
 [[block]]
 block = "sound"
@@ -56,5 +54,5 @@ block = "sound"
 block = "time"
 interval = 60
 [block.format]
-full = " $icon $timestamp.datetime(f:'%a %Y-%m-%d %R %Z', l:fr_BE) "
+full = " $icon $timestamp.datetime(f:'%a %Y-%m-%d %R', l:fr_BE) "
 short = " $icon $timestamp.datetime(f:%R) "

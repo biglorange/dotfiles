@@ -1,0 +1,67 @@
+ip6tables -A input_lan_rule -i br-lan -p ipv6-icmp -m mac ! --mac-source *** -j DROP
+ip6tables -A input_lan_rule -i br-lan -p udp --dport 547 -m mac ! --mac-source * -j DROP
+
+
+
+ip6tables -A INPUT -i br0 -m mac --mac-source 2C:F0:5D:88:B9:24	 -j ACCEPT
+ip6tables -A INPUT -i br0 -m mac --mac-source 92:72:BD:F4:27:89 -j ACCEPT
+ip6tables -A INPUT -i br0 -m mac --mac-source 02:06:F4:CD:83:A5 -j ACCEPT
+ip6tables -A INPUT -i br0 -m mac --mac-source 0E:71:16:9D:07:28 -j ACCEPT
+ip6tables -A INPUT -i br0 -m mac --mac-source 50:65:F3:4F:2B:52	-j ACCEPT
+ip6tables -A INPUT -i br0 -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 2C:F0:5D:88:B9:24 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 2C:F0:5D:88:B9:24 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 546 -m mac --mac-source 2C:F0:5D:88:B9:24 -j ACCEPT
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 92:72:BD:F4:27:89 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 92:72:BD:F4:27:89 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 546 -m mac --mac-source 92:72:BD:F4:27:89 -j ACCEPT
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 02:06:F4:CD:83:A5 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 02:06:F4:CD:83:A5 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 546 -m mac --mac-source 02:06:F4:CD:83:A5 -j ACCEPT
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 0E:71:16:9D:07:28 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 0E:71:16:9D:07:28 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 546 -m mac --mac-source 0E:71:16:9D:07:28 -j ACCEPT
+
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 50:65:F3:4F:2B:52 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 50:65:F3:4F:2B:52 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 546 -m mac --mac-source 50:65:F3:4F:2B:52 -j ACCEPT
+
+ip6tables -A INPUT -i br0 -p udp --dport 547 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 546 -j DROP
+ip6tables -A INPUT -i br0 -p ipv6-icmp -j DROP
+
+# ip6tables -A INPUT -i br0 -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+# ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+# ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+
+# ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 82:09:A3:E3:95:DF -j DROP
+# ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 82:09:A3:E3:95:DF -j DROP
+
+
+ip6tables -A INPUT -i br0 -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source B4:19:74:3E:C5:64 -j DROP
+
+ip6tables -A INPUT -i br0 -m mac --mac-source 82:09:A3:E3:95:DF -j DROP
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 82:09:A3:E3:95:DF -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac --mac-source 82:09:A3:E3:95:DF -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac --mac-source 2c:f0:5d:88:b9:24 -j ACCEPT
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac ! --mac-source 2c:f0:5d:88:b9:24 -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac ! --mac-source 92:72:BD:F4:27:89	 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac ! --mac-source 92:72:BD:F4:27:89	 -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac ! --mac-source 0e:71:16:9d:07:28 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac ! --mac-source 0e:71:16:9d:07:28 -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac ! --mac-source 02:06:f4:cd:83:a5 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac ! --mac-source 02:06:f4:cd:83:a5 -j DROP
+
+ip6tables -A INPUT -i br0 -p ipv6-icmp -m mac ! --mac-source 50:65:f3:4f:2b:52 -j DROP
+ip6tables -A INPUT -i br0 -p udp --dport 547 -m mac ! --mac-source 50:65:f3:4f:2b:52 -j DROP

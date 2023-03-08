@@ -42,7 +42,35 @@ docker run -d \
   -v /root/scripts/docker/qbitorrent:/config \
   -v /mnt:/downloads \
   --restart unless-stopped \
-  linuxserver/qbittorrent
+  linuxserver/qbittorrent:4.4.0
+
+docker run -d \
+  --name=qbittorrent_4.4.0 \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -e WEBUI_PORT=8080 \
+  --net=host \
+  -v /home/orange/docker/qbitorrent:/config \
+  -v /mnt:/downloads \
+  --restart unless-stopped \
+  linuxserver/qbittorrent:4.4.0
+
+docker run -d \
+  --name qbittorrent \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e WEB_PORT=8080 \
+  -e BT_PORT=8999 \
+  --restart=always \
+  -p 8080:8080 \
+  -p 6881:6881 \
+  -p 6881:6881/udp \
+  -p $8999:$8999/tcp -p $8999:$8999/udp \
+  -v /root/docker/qbitorrent/config:/config \
+  -v /root/docker/qbitorrent/data:/data \
+  -v /mnt:/downloads \
+  80x86/qbittorrent:4.2.2
 
 docker network create --subnet=172.18.0.0/16 connect_network
 
@@ -58,7 +86,61 @@ docker run -d \
   -e PGID=1000 \
   -e TZ=Asia/Shanghai \
   -p 8888:80 \
-  -v /root/scripts/docker/nextcloud:/config \
+  -v /root/docker/nextcloud:/config \
   -v /mnt/98_Nextcloud_data:/data \
   --restart unless-stopped \
   linuxserver/nextcloud
+
+
+fastcgi_read_timeout 600;
+fastcgi_send_timeout 600;
+fastcgi_connect_timeout 600;
+proxy_connect_timeout 600;
+proxy_send_timeout 600;
+proxy_read_timeout 600;
+send_timeout 600;
+fastcgi_param proxy_read_timeout 3600; # Trying to solve 504 issue
+fastcgi_param proxy_send_timeout 3600;
+
+occ config:app:set files max_chunk_size --value 0
+
+occ files:scan orange
+
+occ maintenance:mode --off
+
+
+docker run -d \
+  --name photoprism \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  --security-opt seccomp=unconfined \
+  --security-opt apparmor=unconfined \
+  -p 2342:2342 \
+  -e PHOTOPRISM_UPLOAD_NSFW="true" \
+  -e PHOTOPRISM_ADMIN_PASSWORD="Orz804072060@pp" \
+  -v /root/docker/photoprism:/photoprism/storage \
+  -v /mnt/.97_PhotoPrism:/photoprism/originals \
+  photoprism/photoprism
+
+docker run -d --name seafile \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e SEAFILE_SERVER_HOSTNAME=seafile.bigorangeblog.top \
+  -v /mnt/96_Seafile:/shared \
+  -p 8081:80 \
+  seafileltd/seafile:latest
+
+
+docker run -d \
+    --name aria2-pro \
+    --restart unless-stopped \
+    --log-opt max-size=1m \
+    --network host \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e RPC_SECRET=Orz804072060aria \
+    -e RPC_PORT=6800 \
+    -e LISTEN_PORT=6888 \
+    -v /root/docker/aria2-pro:/config \
+    -v /mnt/95_Aria2_download:/downloads \
+    p3terx/aria2-pro
