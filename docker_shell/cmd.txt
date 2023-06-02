@@ -80,6 +80,8 @@ docker run -d -p 5335:53 --net connect_network --ip 172.18.0.2 --restart=always 
 
 docker run --name adguardhome --net connect_network --ip 172.18.0.3 --restart=always -v /root/docker/adguard/work:/opt/adguardhome/work -v /root/docker/adguard/conf:/opt/adguardhome/conf -p 3000:3000/tcp -p 53:53/udp -p 53:53/tcp -d adguard/adguardhome
 
+docker run -d --restart unless-stopped --name privoxy -p 8118:8118 -v /root/docker/privoxy/user.action:/etc/privoxy/user.action -v /root/docker/privoxy/user.filter:/etc/privoxy/user.filter vimagick/privoxy
+
 docker run -d \
   --name=nextcloud \
   -e PUID=1000 \
@@ -144,3 +146,18 @@ docker run -d \
     -v /root/docker/aria2-pro:/config \
     -v /mnt/95_Aria2_download:/downloads \
     p3terx/aria2-pro
+
+
+docker run -it --name onedrive \
+    -v /root/docker/onedrive:/onedrive/conf \
+    -v /mnt/94_Onedrive:/onedrive/data \
+    -e "ONEDRIVE_UID=1000" \
+    -e "ONEDRIVE_GID=1000" \
+    driveone/onedrive:latest
+
+
+fdisk -l
+fdisk /dev/sda
+fdisk -l
+pvresize /dev/sda3
+lvresize --extents +100%FREE --resizefs /dev/mapper/ubuntu--vg-ubuntu--lv

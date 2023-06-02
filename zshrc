@@ -111,7 +111,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
-. /usr/lib/python3.10/site-packages/powerline/bindings/zsh/powerline.zsh
+. /usr/lib/python3.11/site-packages/powerline/bindings/zsh/powerline.zsh
 eval $(thefuck --alias)
 
 alias setpy='export ALL_PROXY=http://192.168.123.79:1081; export http_proxy=http://192.168.123.79:1081; export https_proxy=$http_proxy'

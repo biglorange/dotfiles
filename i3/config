@@ -248,3 +248,5 @@ exec --no-startup-id sleep 1
 # exec --no-startup-id xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
 # 登陆时设置桌面背景
 exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
+
+exec --no-startup-id xmodmap ~/.Xmodmap
