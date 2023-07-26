@@ -161,3 +161,10 @@ fdisk /dev/sda
 fdisk -l
 pvresize /dev/sda3
 lvresize --extents +100%FREE --resizefs /dev/mapper/ubuntu--vg-ubuntu--lv
+
+
+docker run -d \
+--name speedtest \
+-p 12345:80 \
+--restart=always \
+adolfintel/speedtest

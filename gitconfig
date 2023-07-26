@@ -8,10 +8,12 @@
 	sts = stash
 	stp = stash pop
 	co = checkout
-	cob = checkout
+	cob = checkout -b
 	br = branch
 	last = log -1
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	cp = cherry-pick
+	unsta = reset HEAD
 [core]
 	excludesfile = /home/orange/.gitignore
 [http "https://github.com"]

@@ -64,3 +64,11 @@ ln -s ${current_dir}/paru/paru.conf ~/.config/paru/paru.conf
 [ ! -d ~/.cargo ] && mkdir -p ~/.cargo
 rm -f ~/.cargo/config
 ln -s ${current_dir}/cargo/cargo.conf ~/.cargo/config
+
+rm -f /etc/pacman.conf
+sudo ln -s ${current_dir}/pacman/pacman.conf /etc/pacman.conf
+
+rm -f /etc/pacman.d/mirrorlist
+sudo ln -s ${current_dir}/pacman/pacman.d/mirrorlist /etc/pacman.d/mirrorlist
+
+sudo ln -s ${current_dir}/pacman/pacman.d/hooks /etc/pacman.d/hooks
