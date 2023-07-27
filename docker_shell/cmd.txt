@@ -178,3 +178,14 @@ docker run -it --name nginx-proxy-manager \
     -e "ONEDRIVE_UID=1000" \
     -e "ONEDRIVE_GID=1000" \
     jc21/nginx-proxy-manager:latest
+
+
+docker run -it --name nginx-proxy-manager-80 \
+    -v /home/orange/docker/nginx-proxy-manager/data:/data \
+    -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
+    -p 80:80 \
+    -p 81:81 \
+    -p 443:443 \
+    -e "ONEDRIVE_UID=1000" \
+    -e "ONEDRIVE_GID=1000" \
+    jc21/nginx-proxy-manager:latest
