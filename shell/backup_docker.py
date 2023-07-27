@@ -8,7 +8,7 @@ import os
 IPs = [
     {'ip':'192.168.123.5', 'port':'41134', 'user':'root','folder':["/root/scripts", "/root/docker"],
      'exclude':[".cache", "log", "nextcloud", "metadata", "plugins", "transcodes", "jellyfin/data", "logs", "jellyfin/root/default", "cache", "photoprism/sidecar", "photoprism/users", "photoprism/albums"]},
-    {'ip':'192.168.123.6', 'port':'41134', 'user':'root','folder':["/root/scripts", "/root/docker"], 'exclude':["log", "metadata", "plugins", "transcodes", "logs"]},
+    {'ip':'192.168.123.6', 'port':'41134', 'user':'root','folder':["/root/scripts", "/root/docker", "home/orange/docker"], 'exclude':["log", "metadata", "plugins", "transcodes", "logs"]},
 ]
 
 save_path='/home/orange/Documents/04_OS/Linux/02_pve'

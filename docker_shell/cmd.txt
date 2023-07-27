@@ -168,3 +168,13 @@ docker run -d \
 -p 12345:80 \
 --restart=always \
 adolfintel/speedtest
+
+docker run -it --name nginx-proxy-manager \
+    -v /home/orange/docker/nginx-proxy-manager/data:/data \
+    -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
+    -p 10080:80 \
+    -p 10081:81 \
+    -p 10443:443 \
+    -e "ONEDRIVE_UID=1000" \
+    -e "ONEDRIVE_GID=1000" \
+    jc21/nginx-proxy-manager:latest
