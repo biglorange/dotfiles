@@ -189,3 +189,5 @@ docker run -it --name nginx-proxy-manager-80 \
     -e "ONEDRIVE_UID=1000" \
     -e "ONEDRIVE_GID=1000" \
     jc21/nginx-proxy-manager:latest
+
+docker run -d --restart=always -v /home/orange/docker/alist:/opt/alist/data -v /mnt:/var/downloads -p 5244:5244 --name="alist" xhofe/alist:latest
