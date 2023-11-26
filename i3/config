@@ -152,6 +152,8 @@ assign [class="mpv"] $ws9
 assign [class="retroarch"] $ws9
 assign [class="Hollow Knight"] $ws9
 assign [class="Steam"] $ws10
+assign [class="steam"] $ws10
+assign [class="steamwebhelper"] $ws10
 
 # 指定 workspace 运行在指定屏幕上
 set $monitor_left HDMI-A-0
