@@ -114,7 +114,7 @@ powerline-daemon -q
 . /usr/lib/python3.11/site-packages/powerline/bindings/zsh/powerline.zsh
 eval $(thefuck --alias)
 
-alias setpy='export ALL_PROXY=http://192.168.123.79:1081; export http_proxy=http://192.168.123.79:1081; export https_proxy=$http_proxy'
+alias setpy='export ALL_PROXY=http://192.168.123.6:1081; export http_proxy=http://192.168.123.6:1081; export https_proxy=$http_proxy'
 alias unpy='unset ALL_PROXY; unset https_proxy; unset http_proxy'
 
 alias vim='nvim'
@@ -131,7 +131,7 @@ export GOPROXY=https://goproxy.cn
 export DISTCC_DIR=/tmp/distcc
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 if [[ 'Microsoft' != `uname -r | awk -F- '{ print $3}'` ]]; then
-  export ALL_PROXY=http://192.168.123.6:1081
-  export http_proxy=http://192.168.123.6:1081
-  export https_proxy=$http_proxy
+  # export ALL_PROXY=http://192.168.123.6:1081
+  # export http_proxy=http://192.168.123.6:1081
+  # export https_proxy=$http_proxy
 fi
