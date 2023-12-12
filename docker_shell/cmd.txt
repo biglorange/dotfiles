@@ -191,3 +191,13 @@ docker run -it --name nginx-proxy-manager-80 \
     jc21/nginx-proxy-manager:latest
 
 docker run -d --restart=always -v /home/orange/docker/alist:/opt/alist/data -v /mnt:/var/downloads -p 5244:5244 --name="alist" xhofe/alist:latest
+
+docker run -d \
+   --name navidrome \
+   --restart=unless-stopped \
+   --user $(id -u):$(id -g) \
+   -v /mnt/02_Library/05_Music:/music \
+   -v /home/orange/docker/navidrome:/data \
+   -p 4533:4533 \
+   -e ND_LOGLEVEL=info \
+   deluan/navidrome:latest
