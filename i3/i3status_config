@@ -28,6 +28,11 @@ warning = 20.0
 alert = 10.0
 
 [[block]]
+block = "custom"
+command = ''' sudo smartctl -a /dev/sda | grep Temperature_Celsius | awk -F' ' '{ print $10 }' '''
+interval = 60
+
+[[block]]
 block = "cpu"
 interval = 1
 format_alt = " $icon $barchart $utilization $frequency "

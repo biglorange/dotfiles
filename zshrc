@@ -123,7 +123,8 @@ alias mc='make clean'
 alias tvmode='xrandr --output HDMI-A-0 --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 100'
 alias gdb='gdb -q'
 source /usr/share/nvm/init-nvm.sh
-export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
+export NODE_MIRROR=https://mirrors.ustc.edu.cn/node/
 export LSAN_OPTIONS=verbosity=1:log_threads=1
 export ASAN_OPTIONS=detect_leaks=1
 export GO111MODULE=on
@@ -131,7 +132,7 @@ export GOPROXY=https://goproxy.cn
 export DISTCC_DIR=/tmp/distcc
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 if [[ 'Microsoft' != `uname -r | awk -F- '{ print $3}'` ]]; then
-  # export ALL_PROXY=http://192.168.123.6:1081
-  # export http_proxy=http://192.168.123.6:1081
-  # export https_proxy=$http_proxy
+  export ALL_PROXY=http://192.168.123.6:1081
+  export http_proxy=http://192.168.123.6:1081
+  export https_proxy=$http_proxy
 fi

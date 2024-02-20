@@ -1,0 +1,6 @@
+# 对已存在的 btrfs 文件系统进行压缩
+btrfs filesystem defragment -r -v -czstd /mnt
+# fstab 挂载选项，包括透明压缩
+UUID=147064dd-61cc-4970-8036-72f7075cb7c9	/mnt		btrfs		device=/dev/sdb,device=/dev/sdci,compress=zstd:10 		0 0
+UUID=147064dd-61cc-4970-8036-72f7075cb7c9	/mnt		btrfs		device=UUID_SUB=74629bef-70de-4a1a-8d6c-c6020df98bf8,device=UUID_SUB=b0c647f9-8284-454b-b4ad-dfc5b1c7b273,compress=zstd:10 		0 0
+UUID=0a640fb6-9a74-4e4f-a3b8-740893d497cd	/home/orange/data_whonnock	btrfs	subvol=data_000,compress=zstd:10	0 0

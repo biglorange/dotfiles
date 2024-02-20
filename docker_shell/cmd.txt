@@ -27,7 +27,7 @@ docker run -d \
 
 docker run -d -e PUID=1000 -e PGID=1000 -v /root/scripts/docker/jellyfin:/config -v /mnt:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin
 
-docker run -d --name=plex --net=host -e PUID=1000 -e PGID=1000 -e PLEX_CLAIM="xxx" --device=/dev/dri:/dev/dri -e VERSION=docker -v /home/orange/.plex_config:/config -v /mnt/nfs/00_Film:/movies:ro -v /mnt/nfs/04_Series:/tv:ro -v /mnt/nfs/02_Library/05_Music:/music:ro --restart always plexinc/pms-docker
+docker run -d --name=plex --net=host -e PUID=1000 -e PGID=1000 -e PLEX_CLAIM="xxx" -e VERSION=docker -v /home/orange/docker/plex_config:/config -v /mnt/00_Film:/movies:ro -v /mnt/99_X:/movies:ro -v /mnt/04_Series:/tv:ro -v /mnt/02_Library/05_Music:/music:ro --restart always plexinc/pms-docker
 
 
 docker run -d \
@@ -74,13 +74,13 @@ docker run -d \
 
 docker network create --subnet=172.18.0.0/16 connect_network
 
-docker run -d -p 1080:1080 -p 1081:1081 -p 1082:1082 -p 5443:5443 --name v2ray --restart=always -v /root/docker/v2ray:/etc/v2ray teddysun/v2ray
+docker run -d -p 1080:1080 -p 1081:1081 -p 1082:1082 -p 5443:5443 --name v2ray --restart=always -v /home/orange/docker/v2ray:/etc/v2ray teddysun/v2ray
 
-docker run -d -p 5335:53 --net connect_network --ip 172.18.0.2 --restart=always --name gsmartdns -v /root/docker/smartdns:/smartdns ghostry/smartdns
+docker run -d -p 5335:53 --net connect_network --ip 172.18.0.2 --restart=always --name gsmartdns -v /home/orange/docker/smartdns:/smartdns ghostry/smartdns
 
-docker run --name adguardhome --net connect_network --ip 172.18.0.3 --restart=always -v /root/docker/adguard/work:/opt/adguardhome/work -v /root/docker/adguard/conf:/opt/adguardhome/conf -p 3000:3000/tcp -p 53:53/udp -p 53:53/tcp -d adguard/adguardhome
+docker run --name adguardhome --net connect_network --ip 172.18.0.3 --restart=always -v /home/orange/docker/adguard/work:/opt/adguardhome/work -v /home/orange/docker/adguard/conf:/opt/adguardhome/conf -p 3000:3000/tcp -p 53:53/udp -p 53:53/tcp -d adguard/adguardhome
 
-docker run -d --restart unless-stopped --name privoxy -p 8118:8118 -v /root/docker/privoxy/user.action:/etc/privoxy/user.action -v /root/docker/privoxy/user.filter:/etc/privoxy/user.filter vimagick/privoxy
+docker run -d --restart unless-stopped --name privoxy -p 8118:8118 -v /home/orange/docker/privoxy/user.action:/etc/privoxy/user.action -v /home/orange/docker/privoxy/user.filter:/etc/privoxy/user.filter vimagick/privoxy
 
 docker run -d \
   --name=nextcloud \
@@ -201,3 +201,8 @@ docker run -d \
    -p 4533:4533 \
    -e ND_LOGLEVEL=info \
    deluan/navidrome:latest
+
+docker run -d \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -p 8001:8001 -v /mnt/02_Library/05_Music:/app/media -v /home/orange/docker/music_tag_web:/app/data --restart=always xhongc/music_tag_web:latest

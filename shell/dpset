@@ -1,6 +1,8 @@
 #!/bin/bash
 INNER=`xrandr | grep connected | cut -d ' ' -f 1 | sed -n '1p'`
+INNER_STAT=`xrandr | grep connected | cut -d ' ' -f 2 | sed -n '1p'`
 OUTER=`xrandr | grep connected | cut -d ' ' -f 1 | sed -n '2p'`
+OUTER_STAT=`xrandr | grep connected | cut -d ' ' -f 2 | sed -n '2p'`
 ROTATE_NORMAL="normal"
 ROTATE="right"
 MODE_1080p="1920x1080"
@@ -35,7 +37,22 @@ fi
 # fi
 #echo "${retcode}"
 #echo "${INNER},${OUTER}"
+display1=0
+display2=0
+if [[ ${INNER_STAT} == 'connected' ]]; then
+	display1=1
+fi
+if [[ ${OUTER_STAT} == 'connected' ]]; then
+	display2=1
+fi
 
+if [[ ${display1} == 1 && ${display2} == 1 ]]; then
+	xrandr --auto --output ${OUTER} --pos 0x0 --mode ${MODE_1080p} --rotate ${ROTATE} --output ${INNER} --mode ${MODE} --rotate ${ROTATE_NORMAL} --right-of ${OUTER};
+elif [[ ${display1} == 1 ]]; then
+	xrandr --output ${INNER} --primary --mode ${MODE_1080p} --pos 0x0 --rotate normal
+elif [[ ${display2} == 1 ]]; then
+	xrandr --output ${OUTER} --primary --mode ${MODE} --pos 0x0 --rotate normal
+fi
 #extend_connected=$(/usr/bin/xrandr | grep ${OUTER} |cut -d ' ' -f 2 )
 if [[ ${extend_connected} == "connected"  ]];then
 	if [[ ${COPY} == "copy" ]];then

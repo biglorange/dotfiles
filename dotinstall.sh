@@ -73,3 +73,6 @@ sudo ln -s ${current_dir}/pacman/pacman.d/mirrorlist /etc/pacman.d/mirrorlist
 
 sudo rm -f /etc/pacman.d/hooks
 sudo ln -s ${current_dir}/pacman/pacman.d/hooks /etc/pacman.d/hooks
+
+rm -f ~/.npmrc
+ln -s ${current_dir}/npm/npmrc ~/.npmrc
