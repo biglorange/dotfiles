@@ -26,13 +26,13 @@ IPs = [
             "jellyfin/data",
             "jellyfin/root/default",
             "jellyfin/config/dlna",
-            "cache",
+            "plex_config",
+            "photoprism/cache",
             "photoprism/sidecar",
             "photoprism/users",
             "photoprism/albums",
             "ipc-socket",
             "session.lock",
-            "Library/Application Support/Plex Media Server",
             ]
     },
     {
@@ -47,7 +47,7 @@ IPs = [
             ],
         'exclude':[
             "log",
-            "logs"
+            "logs",
             "metadata",
             "plugins",
             "transcodes",

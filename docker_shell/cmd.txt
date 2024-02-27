@@ -206,3 +206,60 @@ docker run -d \
   -e PUID=1000 \
   -e PGID=1000 \
   -p 8001:8001 -v /mnt/02_Library/05_Music:/app/media -v /home/orange/docker/music_tag_web:/app/data --restart=always xhongc/music_tag_web:latest
+
+docker run -d --name wol --net=host --env PORT=9090 chishin/wol-go-web
+
+docker run \
+--network=bridge \
+-p '8099:8096' \
+-p '8920:8920' \
+-p '1990:1900/udp' \
+-p '7359:7359/udp' \
+-v /home/orange/docker/emby/config:/config \
+-v /mnt:/data \
+-e TZ="Asia/Shanghai" \
+-e PUID=1000 \
+-e PGID=1000 \
+-e UID=1000 \
+-e GID=1000 \
+-e GIDLIST=1000 \
+--restart always \
+-e HTTP_PROXY="http://192.168.123.6:1081" \
+-e HTTPS_PROXY="http://192.168.123.6:1081" \
+--name emby \
+-d lovechen/embyserver
+
+
+docker run \
+    -it -d \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    --name ikaros \
+    -p 9999:9999 \
+    -v /home/orange/docker/ikaros:/root/.ikaros \
+    ikarosrun/ikaros
+
+docker run -d --name=ikaros -e PUID=1000 -e PGID=1000 -e TZ=Asia/Shanghai -p 12346:12346 -v /mnt:/media -v /home/orange/docker/ikaros/data:/app/data --restart unless-stopped suwmlee/ikaros:latest
+
+docker run -d --name=syncthing -e PUID=1000 -e PGID=1000 -p 8384:8384 -p 22000:22000 -p 21027:21027 -v /home/orange/docker/syncthing/config:/config -v /mnt/99_X/00_Syncthing_data/Videos:/Videos -v /mnt/99_X/00_Syncthing_data/Pictures:/Pictures --restart=always linuxserver/syncthing:latest
+
+docker run -dit \
+--name qinglong \
+-e PUID=1000 \
+-e PGID=1000 \
+-p 5700:5700 \
+-v /home/orange/docker/qinglong/config:/ql/config \
+-v /home/orange/docker/qinglong/log:/ql/log \
+-v /home/orange/docker/qinglong/db:/ql/db \
+-v /home/orange/docker/qinglong/scripts:/ql/scripts \
+--restart always \
+whyour/qinglong:debian
+
+docker run -d --name vaultwarden \
+  -e SIGNUPS_ALLOWED=true \
+  -e WEBSOCKET_ENABLED=true \
+  -e LOG_FILE=/data/vaultwarden.log \
+  -p 8880:80 \
+  -p 3012:3012 \
+  -v /home/orange/docker/vaultwarden/:/data/ \
+  vaultwarden/server:latest
