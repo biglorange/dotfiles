@@ -26,6 +26,8 @@ ipv6_ddns_set()
 
     IP6=`ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}' | head -1`
     [ -z ${IP6} ] && exit
+    # ipv6 地址以 fe 开头则是本地地址
+    [[ "${IP6}" == fe* ]] && exit
     curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
         -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" \
         --data '{"type":"'"${DNS_TYPE}"'","name":"'"${HOST_NAME}"'","content":"'"${IP6}"'","ttl":120,"proxied":false}'
