@@ -229,16 +229,6 @@ docker run \
 --name emby \
 -d lovechen/embyserver
 
-
-docker run \
-    -it -d \
-    -e PUID=1000 \
-    -e PGID=1000 \
-    --name ikaros \
-    -p 9999:9999 \
-    -v /home/orange/docker/ikaros:/root/.ikaros \
-    ikarosrun/ikaros
-
 docker run -d --name=ikaros -e PUID=1000 -e PGID=1000 -e TZ=Asia/Shanghai -p 12346:12346 -v /mnt:/media -v /home/orange/docker/ikaros/data:/app/data --restart unless-stopped suwmlee/ikaros:latest
 
 docker run -d --name=syncthing -e PUID=1000 -e PGID=1000 -p 8384:8384 -p 22000:22000 -p 21027:21027 -v /home/orange/docker/syncthing/config:/config -v /mnt/99_X/00_Syncthing_data/Videos:/Videos -v /mnt/99_X/00_Syncthing_data/Pictures:/Pictures --restart=always linuxserver/syncthing:latest
