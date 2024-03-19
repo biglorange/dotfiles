@@ -13,6 +13,7 @@ ln -s ${current_dir}/zprofile ~/.zprofile
 # zshrc
 rm -f ~/.zshrc
 ln -s ${current_dir}/zshrc ~/.zshrc
+ln -s ${current_dir}/zshrc_ext ~/.zshrc_ext
 # rm -f ~/.zsh_history
 # ln -s ${current_dir}/zsh_history ~/.zsh_history
 # i3 config
@@ -33,6 +34,7 @@ rm -f ~/.gitconfig
 rm -f ~/.gitignore
 ln -s ${current_dir}/gitconfig ~/.gitconfig
 ln -s ${current_dir}/gitignore ~/.gitignore
+ln -s ${current_dir}/git/gitconfig_ext ~/.gitconfig_ext
 # aria2
 [ ! -d ~/.config/.aria2 ] && mkdir -p ~/.config/.aria2
 rm -f ~/.aria2/aria2.conf

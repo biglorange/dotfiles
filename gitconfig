@@ -15,10 +15,8 @@
 	cp = cherry-pick
 	unsta = reset HEAD
 [core]
-	excludesfile = /home/orange/.gitignore
-[http "https://github.com"]
-	proxy = socks5://192.168.123.6:1080
-[https "https://github.com"]
-	proxy = socks5://192.168.123.6:1080
+	excludesfile = ~/.gitignore
 [pull]
 	rebase = true
+[include]
+	path = ~/.gitconfig_ext

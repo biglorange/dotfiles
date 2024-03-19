@@ -131,8 +131,5 @@ export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
 export DISTCC_DIR=/tmp/distcc
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-if [[ 'Microsoft' != `uname -r | awk -F- '{ print $3}'` ]]; then
-  export ALL_PROXY=http://192.168.123.6:1081
-  export http_proxy=http://192.168.123.6:1081
-  export https_proxy=$http_proxy
-fi
+
+source $HOME/.zshrc_ext

@@ -17,15 +17,27 @@ ROOT_DIR=$(dirname $(readlink -f "$0"))
 #     -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" \
 #     --data '{"type":"'"${DNS_TYPE}"'","name":"'"${HOST_NAME}"'","content":"'"${IP6}"'","ttl":120,"proxied":false}'
 # https://cdn.jsdelivr.net/gh/NateScarlet/holiday-cn@master/{年份}.json
+# https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/{年份}.json
 # 可以获取法定节假日进行判断
 get_proxy_flag()
 {
     current_hour=$(date +%H)
-    current_date=$(date +%u)
+    current_weekday=$(date +%u)
+    current_year=$(date +%Y)
+    current_date=$(date +%Y-%m-%d)
+
+    year_holiday_json="${ROOT_DIR}/${current_year}.json"
+
+    [ -f "${year_holiday_json}" ] || curl https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/${current_year}.json -o ${year_holiday_json}
+
+    tmp_holiday=`cat "${year_holiday_json}" | grep -B 1 -A 1 "${current_date}"`
+
+    # 日期在法定假日表中，但不是节假日，则是中国特色调休，需要上班
+    tmp_is_holiday_flag=`echo "${tmp_holiday}" | grep -oE '"isOffDay": (true)|(false)' | awk -F': ' '{print $2}'`
 
     proxy_flag="false"
 
-    if [[ ${current_date} -ge 1 && ${current_date} -le 5 && ${current_hour} -ge 8 && ${current_hour} -le 18 ]]; then
+    if [[ "${tmp_is_holiday_flag}" == "false" || (${current_weekday} -ge 1 && ${current_weekday} -le 5 && ${current_hour} -ge 8 && ${current_hour} -le 18) ]]; then
         proxy_flag="true"
     fi
 
