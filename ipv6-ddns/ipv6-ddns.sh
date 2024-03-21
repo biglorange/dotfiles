@@ -7,6 +7,7 @@ EMAIL='123456789@abc.com'
 AUTH_KEY='123456789'
 DNS_TYPE='AAAA'
 HOST_NAME='www'
+# NEED_PROXY='false'
 
 ROOT_DIR=$(dirname $(readlink -f "$0"))
 # . ${ROOT_DIR}/ipv6-config
@@ -50,9 +51,13 @@ ipv6_ddns_set()
 {
     [ $# lt 1 ] && exit
     config_file=$1
-    . ${ROOT_DIR}/${config_file}
+    . ${config_file}
 
-    PROXY="$(get_proxy_flag)"
+
+    PROXY="false"
+    if [[ "${NEED_PROXY}" == "true" ]]; then
+        PROXY="$(get_proxy_flag)"
+    fi
 
     tmp_result=$(curl -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
         -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json")
@@ -69,5 +74,8 @@ ipv6_ddns_set()
         --data '{"type":"'"${DNS_TYPE}"'","name":"'"${HOST_NAME}"'","content":"'"${IP6}"'","ttl":120,"proxied":'"${PROXY}"'}'
 }
 
-
-ipv6_ddns_set ipv6-config
+for file in "${ROOT_DIR}"/ipv6-conf*; do
+    if [ -f "${file}" ]; then
+        ipv6_ddns_set "${file}"
+    fi
+done
