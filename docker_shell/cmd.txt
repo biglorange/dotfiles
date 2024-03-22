@@ -25,9 +25,30 @@ docker run -d \
     jxxghp/nas-tools
 
 
-docker run -d -e PUID=1000 -e PGID=1000 -v /root/scripts/docker/jellyfin:/config -v /mnt:/media --name=jellyfin --restart=always -p 8096:8096 jellyfin/jellyfin
+docker run -d \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -v /root/scripts/docker/jellyfin:/config \
+  -v /mnt:/media \
+  --name=jellyfin \
+  --restart=always \
+  -p 8096:8096 \
+  jellyfin/jellyfin
 
-docker run -d --name=plex --net=host -e PUID=1000 -e PGID=1000 -e PLEX_CLAIM="xxx" -e VERSION=docker -v /home/orange/docker/plex_config:/config -v /mnt/00_Film:/movies:ro -v /mnt/99_X:/movies:ro -v /mnt/04_Series:/tv:ro -v /mnt/02_Library/05_Music:/music:ro --restart always plexinc/pms-docker
+docker run -d \
+  --name=plex \
+  --net=host \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e PLEX_CLAIM="xxx" \
+  -e VERSION=docker \
+  -v /home/orange/docker/plex_config:/config \
+  -v /mnt/00_Film:/movies:ro \
+  -v /mnt/99_X:/movies:ro \
+  -v /mnt/04_Series:/tv:ro \
+  -v /mnt/02_Library/05_Music:/music:ro \
+  --restart always \
+  plexinc/pms-docker
 
 
 docker run -d \
@@ -74,13 +95,44 @@ docker run -d \
 
 docker network create --subnet=172.18.0.0/16 connect_network
 
-docker run -d -p 1080:1080 -p 1081:1081 -p 1082:1082 -p 5443:5443 --name v2ray --restart=always -v /home/orange/docker/v2ray:/etc/v2ray teddysun/v2ray
+docker run -d \
+  --name v2ray \
+  -p 1080:1080 \
+  -p 1081:1081 \
+  -p 1082:1082 \
+  -p 5443:5443 \
+  --restart=always \
+  -v /home/orange/docker/v2ray:/etc/v2ray \
+  teddysun/v2ray
 
-docker run -d -p 5335:53 --net connect_network --ip 172.18.0.2 --restart=always --name gsmartdns -v /home/orange/docker/smartdns:/smartdns ghostry/smartdns
+docker run -d \
+  --name gsmartdns \
+  -p 5335:53 \
+  --net connect_network \
+  --ip 172.18.0.2 \
+  --restart=always \
+  -v /home/orange/docker/smartdns:/smartdns \
+  ghostry/smartdns
 
-docker run --name adguardhome --net connect_network --ip 172.18.0.3 --restart=always -v /home/orange/docker/adguard/work:/opt/adguardhome/work -v /home/orange/docker/adguard/conf:/opt/adguardhome/conf -p 3000:3000/tcp -p 53:53/udp -p 53:53/tcp -d adguard/adguardhome
+docker run -d \
+  --name adguardhome \
+  --net connect_network \
+  --ip 172.18.0.3 \
+  --restart=always \
+  -v /home/orange/docker/adguard/work:/opt/adguardhome/work \
+  -v /home/orange/docker/adguard/conf:/opt/adguardhome/conf \
+  -p 3000:3000/tcp \
+  -p 53:53/udp \
+  -p 53:53/tcp \
+  adguard/adguardhome
 
-docker run -d --restart unless-stopped --name privoxy -p 8118:8118 -v /home/orange/docker/privoxy/user.action:/etc/privoxy/user.action -v /home/orange/docker/privoxy/user.filter:/etc/privoxy/user.filter vimagick/privoxy
+docker run -d \
+  --name privoxy \
+  --restart unless-stopped \
+  -p 8118:8118 \
+  -v /home/orange/docker/privoxy/user.action:/etc/privoxy/user.action \
+  -v /home/orange/docker/privoxy/user.filter:/etc/privoxy/user.filter \
+  vimagick/privoxy
 
 docker run -d \
   --name=nextcloud \
@@ -190,7 +242,13 @@ docker run -it --name nginx-proxy-manager-80 \
     -e "ONEDRIVE_GID=1000" \
     jc21/nginx-proxy-manager:latest
 
-docker run -d --restart=always -v /home/orange/docker/alist:/opt/alist/data -v /mnt:/var/downloads -p 5244:5244 --name="alist" xhofe/alist:latest
+docker run -d \
+  --restart=always \
+  -v /home/orange/docker/alist:/opt/alist/data \
+  -v /mnt:/var/downloads \
+  -p 5244:5244 \
+  --name="alist" \
+  xhofe/alist:latest
 
 docker run -d \
    --name navidrome \
@@ -205,33 +263,59 @@ docker run -d \
 docker run -d \
   -e PUID=1000 \
   -e PGID=1000 \
-  -p 8001:8001 -v /mnt/02_Library/05_Music:/app/media -v /home/orange/docker/music_tag_web:/app/data --restart=always xhongc/music_tag_web:latest
+  -p 8001:8001 \
+  -v /mnt/02_Library/05_Music:/app/media \
+  -v /home/orange/docker/music_tag_web:/app/data \
+  --restart=always \
+  xhongc/music_tag_web:latest
 
 docker run -d --name wol --net=host --env PORT=9090 chishin/wol-go-web
 
 docker run \
---network=bridge \
--p '8099:8096' \
--p '8920:8920' \
--p '1990:1900/udp' \
--p '7359:7359/udp' \
--v /home/orange/docker/emby/config:/config \
--v /mnt:/data \
--e TZ="Asia/Shanghai" \
--e PUID=1000 \
--e PGID=1000 \
--e UID=1000 \
--e GID=1000 \
--e GIDLIST=1000 \
---restart always \
--e HTTP_PROXY="http://192.168.123.6:1081" \
--e HTTPS_PROXY="http://192.168.123.6:1081" \
---name emby \
--d lovechen/embyserver
+  --network=bridge \
+  -p '8099:8096' \
+  -p '8920:8920' \
+  -p '1990:1900/udp' \
+  -p '7359:7359/udp' \
+  -v /home/orange/docker/emby/config:/config \
+  -v /mnt:/data \
+  -e TZ="Asia/Shanghai" \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e UID=1000 \
+  -e GID=1000 \
+  -e GIDLIST=1000 \
+  --restart always \
+  -e HTTP_PROXY="http://192.168.123.6:1081" \
+  -e HTTPS_PROXY="http://192.168.123.6:1081" \
+  --name emby \
+  -d lovechen/embyserver
 
-docker run -d --name=ikaros -e PUID=1000 -e PGID=1000 -e TZ=Asia/Shanghai -p 12346:12346 -v /mnt:/media -v /home/orange/docker/ikaros/data:/app/data --restart unless-stopped suwmlee/ikaros:latest
+docker run -d \
+  --name=ikaros \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -p 12346:12346 \
+  -v /mnt:/media \
+  -v /home/orange/docker/ikaros/data:/app/data \
+  --restart unless-stopped \
+  -e HTTP_PROXY="http://192.168.123.6:1081" \
+  -e HTTPS_PROXY="http://192.168.123.6:1081" \
+  suwmlee/ikaros:latest
 
-docker run -d --name=syncthing -e PUID=1000 -e PGID=1000 -p 8384:8384 -p 22000:22000 -p 21027:21027 -v /home/orange/docker/syncthing/config:/config -v /mnt/99_X/00_Syncthing_data/Videos:/Videos -v /mnt/99_X/00_Syncthing_data/Pictures:/Pictures --restart=always linuxserver/syncthing:latest
+docker run -d \
+  --name=syncthing \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -p 8384:8384 \
+  -p 22000:22000 \
+  -p 21027:21027 \
+  -v /home/orange/docker/syncthing/config:/config \
+  -v /mnt/99_X/00_Syncthing_data/Videos:/Videos \
+  -v /mnt/99_X/00_Syncthing_data/Pictures:/Pictures \
+  --restart=always \
+  linuxserver/syncthing:latest
 
 docker run -dit \
 --name qinglong \
