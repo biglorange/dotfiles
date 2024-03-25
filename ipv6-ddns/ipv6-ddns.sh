@@ -22,10 +22,13 @@ ROOT_DIR=$(dirname $(readlink -f "$0"))
 # 可以获取法定节假日进行判断
 get_proxy_flag()
 {
-    current_hour=$(date +%H)
+    start_hour=900
+    end_hour=1800
+
     current_weekday=$(date +%u)
     current_year=$(date +%Y)
     current_date=$(date +%Y-%m-%d)
+    current_time=$(date +%H%M)
 
     year_holiday_json="${ROOT_DIR}/${current_year}.json"
 
@@ -34,44 +37,75 @@ get_proxy_flag()
     tmp_holiday=`cat "${year_holiday_json}" | grep -B 1 -A 1 "${current_date}"`
 
     # 日期在法定假日表中，但不是节假日，则是中国特色调休，需要上班
-    tmp_is_holiday_flag=`echo "${tmp_holiday}" | grep -oE '"isOffDay": (true)|(false)' | awk -F': ' '{print $2}'`
+    tmp_is_holiday_flag=`echo "${tmp_holiday}" | grep -oE '"isOffDay": .*' | awk -F': ' '{print $2}'`
 
     proxy_flag="false"
 
-    if [[ "${tmp_is_holiday_flag}" == "false" || (${current_weekday} -ge 1 && ${current_weekday} -le 5 && ${current_hour} -ge 8 && ${current_hour} -le 18) ]]; then
+    if [[ "${tmp_is_holiday_flag}" == "false" &&
+        ${current_weekday} -ge 1 && ${current_weekday} -le 5 &&
+        ${current_time} -ge ${start_hour} && ${current_time} -le ${end_hour} ]]; then
         proxy_flag="true"
+        echo "${proxy_flag}"
+        return
+    fi
+
+    if [[ ${current_weekday} -ge 1 && ${current_weekday} -le 5 &&
+        ${current_time} -ge ${start_hour} && ${current_time} -le ${end_hour} ]]; then
+        proxy_flag="true"
+        echo "${proxy_flag}"
+        return
     fi
 
     echo "${proxy_flag}"
 }
 
-
-
 ipv6_ddns_set()
 {
-    [ $# lt 1 ] && exit
+    [ $# -lt 1 ] && return
     config_file=$1
     . ${config_file}
 
+    old_ipv6_address_file=${ROOT_DIR}/"config_"$(basename "${config_file}")
+
+    IP6=`ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}' | head -1`
+    [ -z ${IP6} ] && return
+    # ipv6 地址以 fe 开头则是本地地址
+    [[ "${IP6}" == fe* ]] && return
+
+    if [ -f "${old_ipv6_address_file}" ]; then
+        old_ipv6_address=`head -n 1 ${old_ipv6_address_file} | tr -d '\n'`
+        old_proxy_flag=`sed -n '2p' ${old_ipv6_address_file} | tr -d '\n'`
+    fi
 
     PROXY="false"
     if [[ "${NEED_PROXY}" == "true" ]]; then
         PROXY="$(get_proxy_flag)"
     fi
 
-    tmp_result=$(curl -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
+    [[ "${old_ipv6_address}" == "${IP6}" && "${old_proxy_flag}" == "${PROXY}" ]] && return
+
+    tmp_result=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
         -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json")
 
     old_ipv6_address="$(echo "${tmp_result}" | grep -oE '"content":"[0-9a-fA-F:]*"' | awk -F'"' '{print $4}')"
     old_proxy_flag="$(echo "${tmp_result}" | grep -oE '"proxied":(false)|(true)' | awk -F':' '{print $2}' | tr -d '\n')"
 
-    IP6=`ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}' | head -1`
-    [ -z ${IP6} ] && exit
-    # ipv6 地址以 fe 开头则是本地地址
-    [[ "${IP6}" == fe* || "${old_ipv6_address}" == "${IP6}" && ${old_proxy_flag} == "${PROXY}" ]] && exit
+
+    if [[ "${old_ipv6_address}" == "${IP6}" && ${old_proxy_flag} == "${PROXY}" ]]; then
+        echo "${IP6}" > "${old_ipv6_address_file}"
+        echo "${PROXY}" >> "${old_ipv6_address_file}"
+        return
+    fi
+
     curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_ID}" \
         -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" \
         --data '{"type":"'"${DNS_TYPE}"'","name":"'"${HOST_NAME}"'","content":"'"${IP6}"'","ttl":120,"proxied":'"${PROXY}"'}'
+
+    echo "${IP6}" > "${old_ipv6_address_file}"
+    echo "${PROXY}" >> "${old_ipv6_address_file}"
+
+    echo "\n"
+    return
 }
 
 for file in "${ROOT_DIR}"/ipv6-conf*; do

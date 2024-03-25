@@ -127,6 +127,11 @@ docker run -d \
   adguard/adguardhome
 
 docker run -d \
+  --name rsshub \
+  -p 1200:1200 \
+  diygod/rsshub
+
+docker run -d \
   --name privoxy \
   --restart unless-stopped \
   -p 8118:8118 \
@@ -300,8 +305,6 @@ docker run -d \
   -v /mnt:/media \
   -v /home/orange/docker/ikaros/data:/app/data \
   --restart unless-stopped \
-  -e HTTP_PROXY="http://192.168.123.6:1081" \
-  -e HTTPS_PROXY="http://192.168.123.6:1081" \
   suwmlee/ikaros:latest
 
 docker run -d \
@@ -337,3 +340,12 @@ docker run -d --name vaultwarden \
   -p 3012:3012 \
   -v /home/orange/docker/vaultwarden/:/data/ \
   vaultwarden/server:latest
+
+docker run -d \
+  --init \
+  --name memos \
+  -p 5230:5230 \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -v /home/orange/docker/memos/:/var/opt/memos \
+  neosmemo/memos:stable
