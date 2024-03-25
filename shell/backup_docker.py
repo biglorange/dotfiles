@@ -33,6 +33,13 @@ IPs = [
             "photoprism/albums",
             "ipc-socket",
             "session.lock",
+            "navidrome/cache",
+            "music_tag_web/tmp",
+            "ikaros/data/web.log",
+            "emby/config/cache",
+            "emby/config/transcoding-temp",
+            "baidupan",
+            "alist/temp",
             ]
     },
     {
@@ -51,6 +58,8 @@ IPs = [
             "metadata",
             "plugins",
             "transcodes",
+            "vaultwarden/icon_cache",
+            "nginx-proxy-manager/logs",
             ]
     },
 ]
