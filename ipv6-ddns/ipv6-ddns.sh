@@ -28,7 +28,7 @@ get_proxy_flag()
     current_weekday=$(date +%u)
     current_year=$(date +%Y)
     current_date=$(date +%Y-%m-%d)
-    current_time=$(date +%H%M)
+    current_time=$(date +%-H%M)
 
     year_holiday_json="${ROOT_DIR}/${current_year}.json"
 
