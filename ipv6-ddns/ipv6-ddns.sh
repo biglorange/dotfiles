@@ -34,10 +34,10 @@ get_proxy_flag()
 
     [ -f "${year_holiday_json}" ] || curl https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/${current_year}.json -o ${year_holiday_json}
 
-    tmp_holiday=`cat "${year_holiday_json}" | grep -B 1 -A 1 "${current_date}"`
+    tmp_holiday=$(grep -B 1 -A 1 "${current_date}" "${year_holiday_json}")
 
     # 日期在法定假日表中，但不是节假日，则是中国特色调休，需要上班
-    tmp_is_holiday_flag=`echo "${tmp_holiday}" | grep -oE '"isOffDay": .*' | awk -F': ' '{print $2}'`
+    tmp_is_holiday_flag=$(echo "${tmp_holiday}" | grep -oE '"isOffDay": .*' | awk -F': ' '{print $2}')
 
     proxy_flag="false"
 
@@ -59,26 +59,59 @@ get_proxy_flag()
     echo "${proxy_flag}"
 }
 
+check_global_ipv6()
+{
+    local ipv6_address="$1"
+
+    # Use Python to call ipaddress module
+    local is_global=$(python3 - <<END
+import ipaddress
+
+def is_global_ipv6(address):
+    try:
+        ip = ipaddress.IPv6Address(address)
+        return ip.is_global
+    except ipaddress.AddressValueError:
+        return False
+
+ipv6_address = "$ipv6_address"
+print(is_global_ipv6(ipv6_address))
+END
+)
+
+    # Return the result
+    echo "$is_global"
+}
+
 ipv6_ddns_set()
 {
     [ $# -lt 1 ] && return
     config_file=$1
-    . ${config_file}
+    . "${config_file}"
 
     old_ipv6_address_file=${ROOT_DIR}/"config_"$(basename "${config_file}")
 
-    IP6=`ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}' | head -1`
-    [ -z ${IP6} ] && return
-    # ipv6 地址以 fe 开头则是本地地址
-    [[ "${IP6}" == fe* ]] && return
+    IP6_ADDRESS=$(ip -6 addr show dev ${ETH_CARD} | grep global | awk '{print $2}' | awk -F "/" '{print $1}')
 
+    for ipv6_add in ${IP6_ADDRESS}; do
+        check_flag=$(check_global_ipv6 "${ipv6_add}")
+        if [[ "${check_flag}" == "True" ]]; then
+            IP6=${ipv6_add}
+            break
+        fi
+    done
+
+    [ -z "${IP6}" ] && return
+
+    old_ipv6_address=""
+    old_proxy_flag=""
     if [ -f "${old_ipv6_address_file}" ]; then
-        old_ipv6_address=`head -n 1 ${old_ipv6_address_file} | tr -d '\n'`
-        old_proxy_flag=`sed -n '2p' ${old_ipv6_address_file} | tr -d '\n'`
+        old_ipv6_address=$(head -n 1 "${old_ipv6_address_file}" | tr -d '\n')
+        old_proxy_flag=$(sed -n '2p' "${old_ipv6_address_file}" | tr -d '\n')
     fi
 
     PROXY="false"
-    if [[ "${NEED_PROXY}" == "true" ]]; then
+    if [ "${NEED_PROXY}" == "true" ]; then
         PROXY="$(get_proxy_flag)"
     fi
 
@@ -104,7 +137,7 @@ ipv6_ddns_set()
     echo "${IP6}" > "${old_ipv6_address_file}"
     echo "${PROXY}" >> "${old_ipv6_address_file}"
 
-    echo "\n"
+    echo ""
     return
 }
 
