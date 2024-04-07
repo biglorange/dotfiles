@@ -41,8 +41,12 @@ get_proxy_flag()
 
     proxy_flag="false"
 
+    if [[ "${tmp_is_holiday_flag}" == "true" ]]; then
+        echo "{proxy_flag}"
+        return
+    fi
+
     if [[ "${tmp_is_holiday_flag}" == "false" &&
-        ${current_weekday} -ge 1 && ${current_weekday} -le 5 &&
         ${current_time} -ge ${start_hour} && ${current_time} -le ${end_hour} ]]; then
         proxy_flag="true"
         echo "${proxy_flag}"
