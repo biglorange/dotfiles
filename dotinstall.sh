@@ -50,7 +50,7 @@ link_file_after_delete "${current_dir}/gitignore" "${HOME}/.gitignore"
 link_file_after_delete "${current_dir}/git/gitconfig_ext" "${HOME}/.gitconfig_ext"
 # aria2
 chk_path_mk "${HOME}/.config/.aria2"
-link_file_after_delete ${current_dir}/aria2/aria2.conf ${HOME}/.aria2/aria2.conf
+link_file_after_delete "${current_dir}/aria2/aria2.conf" "${HOME}/.aria2/aria2.conf"
 touch "${HOME}/.aria2/aria2.session"
 
 # onedrive

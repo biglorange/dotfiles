@@ -1,8 +1,5 @@
 [init]
 	defaultBranch = master
-[user]
-	email = orange804072060@gmail.com
-	name = biglorange
 [alias]
 	st = status
 	sts = stash
