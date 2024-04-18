@@ -7,4 +7,4 @@ Target = dkms
 [Action]
 Description = Reloading xmodmap
 When = PostTransaction
-Exec = /usr/bin/xmodmap /home/orange/OneDrive/OS/linux/dotfile/Xmodmap
+Exec = /usr/bin/xmodmap /home/orange/.dotfile/Xmodmap
