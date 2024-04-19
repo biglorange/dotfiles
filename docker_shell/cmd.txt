@@ -349,3 +349,11 @@ docker run -d \
   -e PGID=1000 \
   -v /home/orange/docker/memos/:/var/opt/memos \
   neosmemo/memos:stable
+
+docker run -d \
+  -p 3080:8080 \
+  -e OLLAMA_API_BASE_URL=http://192.168.123.2:11434/api \
+  -v ollama-webui:/app/backend/data \
+  --name ollama-webui \
+  --restart always \
+  ghcr.io/ollama-webui/ollama-webui
