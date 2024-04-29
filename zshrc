@@ -111,7 +111,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
-. /usr/lib/python3.11/site-packages/powerline/bindings/zsh/powerline.zsh
+. /usr/share/powerline/bindings/zsh/powerline.zsh
 eval $(thefuck --alias)
 
 alias setpy='export ALL_PROXY=http://192.168.123.6:1081; export http_proxy=http://192.168.123.6:1081; export https_proxy=$http_proxy'
@@ -130,6 +130,8 @@ export ASAN_OPTIONS=detect_leaks=1
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
 export DISTCC_DIR=/tmp/distcc
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 source $HOME/.zshrc_ext
