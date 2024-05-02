@@ -42,7 +42,7 @@ get_proxy_flag()
     proxy_flag="false"
 
     if [[ "${tmp_is_holiday_flag}" == "true" ]]; then
-        echo "{proxy_flag}"
+        echo "${proxy_flag}"
         return
     fi
 
