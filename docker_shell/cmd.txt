@@ -238,14 +238,27 @@ docker run -it --name nginx-proxy-manager \
 
 
 docker run -it --name nginx-proxy-manager-80 \
-    -v /home/orange/docker/nginx-proxy-manager/data:/data \
-    -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
-    -p 80:80 \
-    -p 81:81 \
-    -p 443:443 \
-    -e "ONEDRIVE_UID=1000" \
-    -e "ONEDRIVE_GID=1000" \
-    jc21/nginx-proxy-manager:latest
+  -v /home/orange/docker/nginx-proxy-manager/data:/data \
+  -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
+  -p 80:80 \
+  -p 81:81 \
+  -p 443:443 \
+  jc21/nginx-proxy-manager:latest
+
+docker run -it --name npm \
+  -v /home/orange/docker/nginx-proxy-manager/data:/data \
+  -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
+  --network host \
+  jc21/nginx-proxy-manager:latest
+
+docker run -it --name npm \
+  --network=bridge \
+  -v /home/orange/docker/nginx-proxy-manager/data:/data \
+  -v /home/orange/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt \
+  -p 80:80 \
+  -p 81:81 \
+  -p 443:443 \
+  jc21/nginx-proxy-manager:latest
 
 docker run -d \
   --restart=always \
@@ -283,7 +296,7 @@ docker run \
   -p '1990:1900/udp' \
   -p '7359:7359/udp' \
   -v /home/orange/docker/emby/config:/config \
-  -v /mnt:/data \
+  -v /mnt/pt:/data \
   -e TZ="Asia/Shanghai" \
   -e PUID=1000 \
   -e PGID=1000 \
@@ -357,3 +370,17 @@ docker run -d \
   --name ollama-webui \
   --restart always \
   ghcr.io/ollama-webui/ollama-webui
+
+
+docker run -d --restart=always \
+  --name redis \
+  --network host \
+  -v /home/orange/docker/redis/data:/data \
+  -v /home/orange/docker/redis/conf/redis.conf:/etc/redis/redis.conf  \
+  -v /home/orange/docker/redis/logs:/usr/local/redis/logs  \
+  redis:latest
+
+docker run -d\
+	--name mosdns --net=host \
+	-v /home/orange/docker/mosdns:/etc/mosdns \
+	irinesistiana/mosdns:latest
