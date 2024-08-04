@@ -43,6 +43,35 @@ IPs = [
             ]
     },
     {
+        'ip':'192.168.123.12',
+        'port':'41134',
+        'user':'root',
+        'folder':[
+            "/home/orange/docker",
+            "/home/orange/scripts",
+            ],
+        'exclude':[
+            ".cache",
+            "log",
+            "logs",
+            "metadata",
+            "plugins",
+            "transcodes",
+            "ipc-socket",
+            "session.lock",
+            "navidrome/cache",
+            "music_tag_web/tmp",
+            "ikaros/data/web.log",
+            "emby/config/cache",
+            "emby/config/transcoding-temp",
+            "baidupan",
+            "alist/temp",
+            "moviepolit/core",
+            "ib_logfile0",
+            "iyuu/src",
+            ]
+    },
+    {
         'ip':'192.168.123.6',
         'port':'41134',
         'user':'root',
@@ -58,8 +87,10 @@ IPs = [
             "metadata",
             "plugins",
             "transcodes",
+            "adguard/work/data/querylog.json"
             "vaultwarden/icon_cache",
             "nginx-proxy-manager/logs",
+            "postgres",
             ]
     },
 ]

@@ -226,6 +226,10 @@ bindsym $mod+F10 exec steam-runtime
 bindsym $mod+k exec xscreensaver-command -l
 # force off screen
 bindsym $mod+l exec 'sleep 1 && xset dpms force off'
+# 启动双屏配置
+bindsym $mod+p exec dpset
+# 启用案件配置，交换 cap 和 ctrl
+bindsym $mod+x exec 'xmodmap ~/.Xmodmap'
 # capture screenshoot
 bindsym $mod+a --release exec scrot -q 100 '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/00_Screenshoots/'
 bindsym $mod+shift+a --release exec scrot -q 100 -s '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/00_Screenshoots/'
@@ -252,5 +256,7 @@ exec --no-startup-id sleep 1
 # exec --no-startup-id xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
 # 登陆时设置桌面背景
 exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
-
+# 登陆时配置键盘按键，交换 cap 和 ctrl
 exec --no-startup-id xmodmap ~/.Xmodmap
+# 启动时设置双屏模式
+exec_always --no-startup-id dpset
