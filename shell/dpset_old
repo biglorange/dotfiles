@@ -1,0 +1,75 @@
+#!/bin/bash
+INNER=$(xrandr | grep -v disconnected | grep connected | cut -d ' ' -f 1 | sed -n '1p')
+INNER_STAT=$(xrandr | grep -v disconnected | grep connected | cut -d ' ' -f 2 | sed -n '1p')
+OUTER=$(xrandr | grep -v disconnected | grep connected | cut -d ' ' -f 1 | sed -n '2p')
+OUTER_STAT=$(xrandr | grep -v disconnected | grep connected | cut -d ' ' -f 2 | sed -n '2p')
+ROTATE_NORMAL="normal"
+ROTATE="left"
+MODE_1080p="1920x1080"
+MODE2="2560x1440"
+MODE3="1920x2160"
+MODE4="3840x2160"
+MODE=${MODE4}
+if [ -n "$1" ];then
+	MODE=$1;
+	if [[ ${MODE} == "2" ]];then
+		MODE=${MODE2};
+	elif [[ ${MODE} == "3" ]];then
+		MODE=${MODE3};
+	else
+		MODE=${MODE4};
+	fi
+fi
+if [ -n "$1" ]; then
+	if [[ "$1" == "n" ]]; then
+		ROTATE="normal"
+	fi
+fi
+#COPY=$1
+#echo "${COPY}"
+# retcode=$(/usr/bin/lsmod | grep nvidia)
+# if [ -n "${retcode}" ];then
+# 	INNER="eDP-1";
+# 	OUTER="HDMI-1";
+# else
+# 	INNER="eDP-1";
+# 	OUTER="HDMI-1";
+# fi
+#echo "${retcode}"
+#echo "${INNER},${OUTER}"
+display1=0
+display2=0
+if [[ ${INNER_STAT} == 'connected' ]]; then
+	display1=1
+fi
+if [[ ${OUTER_STAT} == 'connected' ]]; then
+	display2=1
+fi
+
+if [[ ${display1} == 1 && ${display2} == 1 ]]; then
+	xrandr --auto --output "${OUTER}" --pos 0x0 --mode ${MODE_1080p} --rotate ${ROTATE} --output "${INNER}" --mode ${MODE} --rotate ${ROTATE_NORMAL} --right-of "${OUTER}";
+elif [[ ${display1} == 1 ]]; then
+	xrandr --output "${INNER}" --primary --mode ${MODE_1080p} --pos 0x0 --rotate normal
+elif [[ ${display2} == 1 ]]; then
+	xrandr --output "${OUTER}" --primary --mode ${MODE} --pos 0x0 --rotate normal
+fi
+#extend_connected=$(/usr/bin/xrandr | grep ${OUTER} |cut -d ' ' -f 2 )
+extend_connected=''
+if [[ ${extend_connected} == "connected"  ]];then
+	if [[ ${COPY} == "copy" ]];then
+		xrandr --auto --output "${INNER}" --pos 0x0 --mode 1920x1080 --output "${OUTER}" --same-as "${INNER}";
+		exit 0;
+	fi
+	#xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode ${MODE} --pos 1920x0 --rotate normal
+	xrandr --output "${OUTER}" --primary --mode ${MODE} --pos 0x0 --rotate normal
+	#sleep 0.5
+	#xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode ${MODE} --pos 1920x0 --rotate $ROTATE --right-of ${INNER}
+else
+	xrandr --auto --output "${OUTER}" --pos 0x0 --mode ${MODE_1080p} --rotate ${ROTATE} --output "${INNER}" --mode ${MODE} --rotate ${ROTATE_NORMAL} --right-of "${OUTER}";
+fi
+#sleep 0.5
+# feh -recursive -randomize --bg-scale ~/Pictures/Wallpapers
+feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
+#sleep 0.5
+#bash -x /home/orange/.Conky/startconky.sh > /dev/null 2>&1
+#exit 0;

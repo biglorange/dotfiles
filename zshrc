@@ -106,13 +106,14 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
 
-source $ZSH/oh-my-zsh.sh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
+[[ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f "/usr/share/zsh/plugins/zsh-autopair/autopair.zsh" ]] && source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
+[[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 powerline-daemon -q
-. /usr/share/powerline/bindings/zsh/powerline.zsh
+[[ -f "/usr/share/powerline/bindings/zsh/powerline.zsh" ]] && . /usr/share/powerline/bindings/zsh/powerline.zsh
 eval $(thefuck --alias)
+[[ -f "/usr/share/nvm/init-nvm.sh" ]] && source /usr/share/nvm/init-nvm.sh
 
 alias setpy='export ALL_PROXY=http://192.168.123.6:1081; export http_proxy=http://192.168.123.6:1081; export https_proxy=$http_proxy'
 alias unpy='unset ALL_PROXY; unset https_proxy; unset http_proxy'
@@ -122,7 +123,6 @@ alias mk='make clean && make'
 alias mc='make clean'
 alias tvmode='xrandr --output HDMI-A-0 --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 100'
 alias gdb='gdb -q'
-source /usr/share/nvm/init-nvm.sh
 export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 export NODE_MIRROR=https://mirrors.ustc.edu.cn/node/
 export LSAN_OPTIONS=verbosity=1:log_threads=1
@@ -134,4 +134,4 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
-source $HOME/.zshrc_ext
+[[ -s "$HOME/.zshrc_ext" ]] && source $HOME/.zshrc_ext

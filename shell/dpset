@@ -1,75 +1,63 @@
 #!/bin/bash
-INNER=$(xrandr | grep connected | cut -d ' ' -f 1 | sed -n '1p')
-INNER_STAT=$(xrandr | grep connected | cut -d ' ' -f 2 | sed -n '1p')
-OUTER=$(xrandr | grep connected | cut -d ' ' -f 1 | sed -n '2p')
-OUTER_STAT=$(xrandr | grep connected | cut -d ' ' -f 2 | sed -n '2p')
-ROTATE_NORMAL="normal"
-ROTATE="left"
-MODE_1080p="1920x1080"
-MODE2="2560x1440"
-MODE3="1920x2160"
-MODE4="3840x2160"
-MODE=${MODE4}
-if [ -n "$1" ];then
-	MODE=$1;
-	if [[ ${MODE} == "2" ]];then
-		MODE=${MODE2};
-	elif [[ ${MODE} == "3" ]];then
-		MODE=${MODE3};
-	else
-		MODE=${MODE4};
-	fi
-fi
-if [ -n "$1" ]; then
-	if [[ "$1" == "n" ]]; then
-		ROTATE="normal"
-	fi
-fi
-#COPY=$1
-#echo "${COPY}"
-# retcode=$(/usr/bin/lsmod | grep nvidia)
-# if [ -n "${retcode}" ];then
-# 	INNER="eDP-1";
-# 	OUTER="HDMI-1";
-# else
-# 	INNER="eDP-1";
-# 	OUTER="HDMI-1";
-# fi
-#echo "${retcode}"
-#echo "${INNER},${OUTER}"
-display1=0
-display2=0
-if [[ ${INNER_STAT} == 'connected' ]]; then
-	display1=1
-fi
-if [[ ${OUTER_STAT} == 'connected' ]]; then
-	display2=1
+
+# 声明一个关联数组来存储显示器名称、分辨率和刷新率信息
+declare -A display_info
+declare -A resolutions
+
+# 使用 xrandr 获取显示器信息
+current_monitor=""
+
+# 读取 xrandr 输出
+while IFS= read -r line; do
+    # 匹配显示器名称和状态
+    if [[ "$line" =~ ^([A-Za-z0-9_-]+)[[:space:]]+connected ]]; then
+        current_monitor=${BASH_REMATCH[1]}
+    elif [[ "$line" =~ ^[[:space:]]*([0-9]+x[0-9]+) ]]; then
+        # 如果该显示器已经记录过分辨率，跳过
+        if [[ -n "${display_info[$current_monitor]}" ]]; then
+            continue
+        fi
+
+        # 提取分辨率和对应的刷新率
+        resolution=$(echo "$line" | awk '{print $1}')
+        refresh_rate=$(echo "$line" | awk '{print $2}' | sed 's/[*+]*//g')
+
+        # 使用 bc 进行浮点数比较，刷新率大于等于 60.00
+        if [[ -n "$refresh_rate" && "$(echo "$refresh_rate >= 60" | bc -l)" -eq 1 ]]; then
+            display_info["$current_monitor"]="$resolution@$refresh_rate"
+            resolutions["$current_monitor"]="$resolution"
+        fi
+    fi
+done <<< "$(xrandr)"
+
+# 排序显示器信息，按分辨率从大到小排列
+sorted_displays=$(for monitor in "${!display_info[@]}"; do
+    resolution=${resolutions[$monitor]}
+    echo "$monitor $resolution"
+done | sort -t'x' -k1,1nr -k2,2nr)
+
+# 获取主显示器和其余显示器
+primary_monitor=$(echo "$sorted_displays" | head -n1 | awk '{print $1}')
+primary_resolution=$(echo "$sorted_displays" | head -n1 | awk '{print $2}')
+secondary_monitors=$(echo "$sorted_displays" | tail -n +2 | awk '{print $1}')
+secondary_resolutions=$(echo "$sorted_displays" | tail -n +2 | awk '{print $2}')
+
+# 设置主显示器位置（右侧）
+xrandr --output "$primary_monitor" --mode "$primary_resolution" --primary
+
+# 先设置第一个副显示器的位置
+first_secondary_monitor=$(echo "$secondary_monitors" | head -n1)
+first_secondary_resolution=$(echo "$secondary_resolutions" | head -n1)
+
+if [[ -n "$first_secondary_monitor" ]]; then
+    xrandr --output "$first_secondary_monitor" --mode "$first_secondary_resolution" --left-of "$primary_monitor"
 fi
 
-if [[ ${display1} == 1 && ${display2} == 1 ]]; then
-	xrandr --auto --output "${OUTER}" --pos 0x0 --mode ${MODE_1080p} --rotate ${ROTATE} --output "${INNER}" --mode ${MODE} --rotate ${ROTATE_NORMAL} --right-of "${OUTER}";
-elif [[ ${display1} == 1 ]]; then
-	xrandr --output "${INNER}" --primary --mode ${MODE_1080p} --pos 0x0 --rotate normal
-elif [[ ${display2} == 1 ]]; then
-	xrandr --output "${OUTER}" --primary --mode ${MODE} --pos 0x0 --rotate normal
-fi
-#extend_connected=$(/usr/bin/xrandr | grep ${OUTER} |cut -d ' ' -f 2 )
-extend_connected=''
-if [[ ${extend_connected} == "connected"  ]];then
-	if [[ ${COPY} == "copy" ]];then
-		xrandr --auto --output "${INNER}" --pos 0x0 --mode 1920x1080 --output "${OUTER}" --same-as "${INNER}";
-		exit 0;
-	fi
-	#xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode ${MODE} --pos 1920x0 --rotate normal
-	xrandr --output "${OUTER}" --primary --mode ${MODE} --pos 0x0 --rotate normal
-	#sleep 0.5
-	#xrandr --output ${INNER} --mode 1920x1080 --pos 0x0 --rotate normal --output ${OUTER} --primary --mode ${MODE} --pos 1920x0 --rotate $ROTATE --right-of ${INNER}
-else
-	xrandr --auto --output "${OUTER}" --pos 0x0 --mode ${MODE_1080p} --rotate ${ROTATE} --output "${INNER}" --mode ${MODE} --rotate ${ROTATE_NORMAL} --right-of "${OUTER}";
-fi
-#sleep 0.5
-# feh -recursive -randomize --bg-scale ~/Pictures/Wallpapers
-feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
-#sleep 0.5
-#bash -x /home/orange/.Conky/startconky.sh > /dev/null 2>&1
-#exit 0;
+# 设置其余副显示器的位置
+previous_monitor="$first_secondary_monitor"
+
+for monitor in $(echo "$secondary_monitors" | tail -n +2); do
+    resolution=$(echo "$secondary_resolutions" | awk -v monitor="$monitor" '{if ($1 == monitor) print $2}')
+    xrandr --output "$monitor" --mode "$resolution" --left-of "$previous_monitor"
+    previous_monitor="$monitor"
+done
