@@ -249,14 +249,10 @@ exec --no-startup-id fcitx5 -d
 exec --no-startup-id xset dpms 0 0 180
 exec --no-startup-id sudo msi-rgb 0 0 0 -x
 exec --no-startup-id sleep 1
-# 启动双屏
-# set $LEFT_OUTPUT HDMI-A-0
-# set $RIGHT_OUTPUT DisplayPort-0
-# set $ROTATED normal
-# exec --no-startup-id xrandr --auto --output ${LEFT_OUTPUT} --mode 1920x1080 --pos 0x0 --rotate right --output ${RIGHT_OUTPUT} --primary --mode 3840x2160 --rotate $ROTATED --right-of ${LEFT_OUTPUT}
-# 登陆时设置桌面背景
-exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
 # 登陆时配置键盘按键，交换 cap 和 ctrl
 exec --no-startup-id xmodmap ~/.Xmodmap
-# 启动时设置双屏模式
-exec_always --no-startup-id dpset
+# 启动时通过 autorandr 加载多屏配置
+# exec_always --no-startup-id dpset
+exec_always --no-startup-id autorandr -c
+# 登陆时设置桌面背景
+exec feh --no-fehbg --bg-scale '/home/orange/Pictures/Wallpapers/mars.png' '/home/orange/Pictures/Wallpapers/bg.jpg'
