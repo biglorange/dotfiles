@@ -69,6 +69,9 @@ IPs = [
             "moviepolit/core",
             "ib_logfile0",
             "iyuu/src",
+            "stash",
+            "moviepolit/config/temp",
+            "navidrome/data/cache",
             ]
     },
     {
@@ -87,7 +90,7 @@ IPs = [
             "metadata",
             "plugins",
             "transcodes",
-            "adguard/work/data/querylog.json"
+            "adguard/work/data/querylog.json*"
             "vaultwarden/icon_cache",
             "nginx-proxy-manager/logs",
             "postgres",
